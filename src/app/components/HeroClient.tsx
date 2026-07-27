@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, PlayCircle, Clock, CheckCircle2, AlertTriangle, Info, MapPin, Phone, Mail, User, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, PlayCircle, Clock, CheckCircle2, Info, Phone, Mail, User, Calendar, ChevronLeft, ChevronRight, ShieldAlert } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import useEmblaCarousel from "embla-carousel-react";
@@ -11,26 +11,31 @@ interface HeroClientProps {
     notice: any;
 }
 
-const hoursData = [
-    null, // Sunday
-    { open: "7:00", close: "13:00" }, // Monday
-    { open: "11:00", close: "18:00" }, // Tuesday
-    { open: "7:00", close: "13:00" }, // Wednesday
-    { open: "7:00", close: "13:00" }, // Thursday
-    { open: "7:00", close: "12:00" }, // Friday
-    null, // Saturday
+const hoursList = [
+    { dayIndex: 1, dayName: "Pondělí", time: "7:00 – 13:00", info: "Odběry do 9:00" },
+    { dayIndex: 2, dayName: "Úterý", time: "11:00 – 18:00", info: "Odpolední" },
+    { dayIndex: 3, dayName: "Středa", time: "7:00 – 13:00", info: "Odběry do 9:00" },
+    { dayIndex: 4, dayName: "Čtvrtek", time: "7:00 – 13:00", info: "Odběry do 9:00" },
+    { dayIndex: 5, dayName: "Pátek", time: "7:00 – 12:00", info: "Pouze akutní" },
 ];
+
+const hoursData: Record<number, { open: string; close: string }> = {
+    1: { open: "7:00", close: "13:00" },
+    2: { open: "11:00", close: "18:00" },
+    3: { open: "7:00", close: "13:00" },
+    4: { open: "7:00", close: "13:00" },
+    5: { open: "7:00", close: "12:00" },
+};
 
 export default function HeroClient({ notice }: HeroClientProps) {
     const [status, setStatus] = useState<"OPEN" | "CLOSING_SOON" | "CLOSED">("CLOSED");
-    const [todayHours, setTodayHours] = useState<string | null>(null);
+    const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
 
-    // Embla Carousel Setup
+    // Embla Carousel Setup (2 slides: Hours & Vacations)
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true }, [
         Autoplay({ delay: 6000, stopOnInteraction: false })
     ]);
     const [selectedIndex, setSelectedIndex] = useState(0);
-    const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
 
     const onSelect = useCallback(() => {
         if (!emblaApi) return;
@@ -40,7 +45,6 @@ export default function HeroClient({ notice }: HeroClientProps) {
     useEffect(() => {
         if (!emblaApi) return;
         onSelect();
-        setScrollSnaps(emblaApi.scrollSnapList());
         emblaApi.on("select", onSelect);
         return () => {
             emblaApi.off("select", onSelect);
@@ -50,18 +54,19 @@ export default function HeroClient({ notice }: HeroClientProps) {
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
 
-    // Determine Status Logic (unchanged)
+    // Calculate current operating status & today's index
     useEffect(() => {
         const now = new Date();
-        const day = now.getDay();
-        const hours = now.getHours();
-        const minutes = now.getMinutes();
-        const currentTime = hours * 60 + minutes;
+        const day = now.getDay(); // 0 = Sun, 1 = Mon ...
+        setCurrentDayIndex(day);
 
         const schedule = hoursData[day];
 
         if (schedule) {
-            setTodayHours(`${schedule.open} – ${schedule.close}`);
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const currentTime = hours * 60 + minutes;
+
             const [openHour, openMinute] = schedule.open.split(":").map(Number);
             const [closeHour, closeMinute] = schedule.close.split(":").map(Number);
             const openTime = openHour * 60 + openMinute;
@@ -75,42 +80,24 @@ export default function HeroClient({ notice }: HeroClientProps) {
                 setStatus("CLOSED");
             }
         } else {
-            setTodayHours("Dnes zavřeno");
             setStatus("CLOSED");
         }
-    }, [status]); // Add status to dep array to re-trigger if needed, though empty is fine for on-mount. Logic relies on 'now'.
+    }, []);
 
-    // Define Cards Array
-    const cards = [
-        { type: "STATUS", id: "status-card" },
-        ...(notice?.alertText ? [{ type: "ALERT", id: "alert-card" }] : []),
-        ...(notice?.customInfoActive ? [{ type: "CUSTOM_INFO", id: "custom-info-card" }] : [])
-    ];
-
-    // Helper to get status color
-    const getStatusColor = (s: typeof status) => {
-        switch (s) {
-            case "OPEN": return "text-green-600";
-            case "CLOSING_SOON": return "text-orange-500";
-            case "CLOSED": return "text-slate-400";
-        }
+    const formatDateRange = (start?: string, end?: string) => {
+        if (!start) return "";
+        const formatDate = (dStr: string) => {
+            const parts = dStr.split("-");
+            if (parts.length === 3) {
+                return `${parseInt(parts[2], 10)}.${parseInt(parts[1], 10)}.`;
+            }
+            return dStr;
+        };
+        if (!end || start === end) return formatDate(start);
+        return `${formatDate(start)} – ${formatDate(end)}`;
     };
 
-    const getStatusBg = (s: typeof status) => {
-        switch (s) {
-            case "OPEN": return "bg-green-100 text-green-700";
-            case "CLOSING_SOON": return "bg-orange-100 text-orange-700";
-            case "CLOSED": return "bg-slate-100 text-slate-500";
-        }
-    };
-
-    const getStatusText = (s: typeof status) => {
-        switch (s) {
-            case "OPEN": return "Otevřeno";
-            case "CLOSING_SOON": return "Za chvíli zavíráme";
-            case "CLOSED": return "Zavřeno";
-        }
-    };
+    const vacations = notice?.vacations || [];
 
     return (
         <section id="home" className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-slate-50/50">
@@ -183,133 +170,188 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         </div>
                     </div>
 
-                    {/* Right Column: Embla Carousel Notice Board */}
+                    {/* Right Column: Rotating 2-Table Noticeboard */}
                     <div className="relative flex justify-center lg:justify-end">
-                        <div className="relative w-full max-w-lg bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50 animate-fade-in-up animation-delay-500 flex flex-col overflow-hidden">
+                        <div className="relative w-full max-w-lg bg-white/90 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-white/50 animate-fade-in-up flex flex-col overflow-hidden">
 
                             {/* Floating Decoration */}
-                            <div className="absolute -top-6 -right-6 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 hidden md:block animate-bounce-slow z-30">
-                                <Clock className="w-8 h-8 text-blue-600" />
+                            <div className="absolute -top-5 -right-5 bg-white p-3.5 rounded-2xl shadow-xl border border-slate-100 hidden md:block animate-bounce-slow z-30">
+                                <Clock className="w-7 h-7 text-blue-600" />
                             </div>
 
-                            {/* Header / Controls */}
-                            <div className="flex items-center justify-between border-b border-slate-100 p-6 bg-white/50">
-                                <h3 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                                    <Info className="text-blue-500" size={20} />
-                                    Informační tabule
-                                </h3>
-                                <div className="flex gap-2">
-                                    <button onClick={scrollPrev} className="p-1 rounded-full hover:bg-slate-100 transition-colors" aria-label="Previous">
-                                        <ChevronLeft size={20} className="text-slate-500" />
-                                    </button>
-                                    <button onClick={scrollNext} className="p-1 rounded-full hover:bg-slate-100 transition-colors" aria-label="Next">
-                                        <ChevronRight size={20} className="text-slate-500" />
-                                    </button>
+                            {/* Noticeboard Header with Slide Selector */}
+                            <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 bg-white/60">
+                                <div className="flex items-center gap-2">
+                                    <Info className="text-blue-600 shrink-0" size={20} />
+                                    <span className="font-bold text-slate-900 text-base">Informační tabule</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    {/* Slide Indicators / Tabs */}
+                                    <div className="flex bg-slate-100 p-1 rounded-xl text-xs font-bold text-slate-600">
+                                        <button
+                                            onClick={() => emblaApi && emblaApi.scrollTo(0)}
+                                            className={cn(
+                                                "px-3 py-1 rounded-lg transition-all",
+                                                selectedIndex === 0 ? "bg-white text-blue-600 shadow-sm" : "hover:text-slate-900"
+                                            )}
+                                        >
+                                            Hodiny
+                                        </button>
+                                        <button
+                                            onClick={() => emblaApi && emblaApi.scrollTo(1)}
+                                            className={cn(
+                                                "px-3 py-1 rounded-lg transition-all",
+                                                selectedIndex === 1 ? "bg-white text-blue-600 shadow-sm" : "hover:text-slate-900"
+                                            )}
+                                        >
+                                            Dovolená
+                                        </button>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <button onClick={scrollPrev} className="p-1 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors" aria-label="Previous">
+                                            <ChevronLeft size={18} />
+                                        </button>
+                                        <button onClick={scrollNext} className="p-1 rounded-lg hover:bg-slate-100 text-slate-500 transition-colors" aria-label="Next">
+                                            <ChevronRight size={18} />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
                             {/* Carousel Viewport */}
                             <div className="overflow-hidden" ref={emblaRef}>
                                 <div className="flex touch-pan-y">
-                                    {cards.map((card, index) => (
-                                        <div className="flex-[0_0_100%] min-w-0 p-8 min-h-[400px] flex flex-col" key={card.id}>
 
-                                            {/* STATUS CARD */}
-                                            {card.type === "STATUS" && (
-                                                <div className="flex flex-col h-full items-center text-center justify-center space-y-4">
-                                                    <div className={cn("text-6xl font-black mb-2 tracking-tight", getStatusColor(status))}>
-                                                        {todayHours || "Dnes zavřeno"}
-                                                    </div>
+                                    {/* SLIDE 1: ORDINAČNÍ HODINY */}
+                                    <div className="flex-[0_0_100%] min-w-0 p-6 md:p-8 flex flex-col justify-between">
+                                        <div>
+                                            <div className="flex items-center justify-between mb-4">
+                                                <h3 className="font-bold text-xl text-slate-900 flex items-center gap-2">
+                                                    <Clock size={20} className="text-blue-600" />
+                                                    Ordinační hodiny
+                                                </h3>
+                                                <span className={cn(
+                                                    "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider",
+                                                    status === "OPEN" && "bg-green-100 text-green-700",
+                                                    status === "CLOSING_SOON" && "bg-orange-100 text-orange-700",
+                                                    status === "CLOSED" && "bg-slate-100 text-slate-500"
+                                                )}>
+                                                    {status === "OPEN" && "• Otevřeno"}
+                                                    {status === "CLOSING_SOON" && "• Za chvíli zavíráme"}
+                                                    {status === "CLOSED" && "• Zavřeno"}
+                                                </span>
+                                            </div>
 
-                                                    <div className={cn("px-6 py-2 rounded-full text-lg font-bold uppercase tracking-wider inline-block mb-6 shadow-sm",
-                                                        getStatusBg(status))}>
-                                                        {getStatusText(status)}
-                                                    </div>
-
-                                                    {status === "CLOSED" && (
-                                                        <div className="text-slate-500 text-base max-w-[280px] space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
-                                                            <p className="font-bold text-slate-700">Dnes už je zavřeno</p>
-                                                            <p>Zavolejte nám prosím zítra ráno.</p>
+                                            {/* Table of Hours */}
+                                            <div className="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden bg-slate-50/50">
+                                                {hoursList.map((item) => {
+                                                    const isToday = currentDayIndex === item.dayIndex;
+                                                    return (
+                                                        <div
+                                                            key={item.dayName}
+                                                            className={cn(
+                                                                "flex items-center justify-between px-4 py-2.5 text-sm transition-colors",
+                                                                isToday ? "bg-blue-50/90 font-bold text-blue-900 border-l-4 border-l-blue-600" : "text-slate-700 hover:bg-white"
+                                                            )}
+                                                        >
+                                                            <div className="flex items-center gap-2">
+                                                                <span className="w-20 font-semibold">{item.dayName}</span>
+                                                                {isToday && (
+                                                                    <span className="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-blue-600 text-white">
+                                                                        Dnes
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <div className="flex items-center gap-3">
+                                                                <span className="font-medium text-slate-500 text-xs hidden sm:inline">{item.info}</span>
+                                                                <span className="font-bold text-slate-900">{item.time}</span>
+                                                            </div>
                                                         </div>
-                                                    )}
-                                                    {status === "CLOSING_SOON" && (
-                                                        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                                                            <p className="text-orange-800 text-base font-bold">
-                                                                Přijímáme poslední pacienty.
-                                                            </p>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+
+                                        {/* Quick Actions Footer */}
+                                        <div className="grid grid-cols-2 gap-3 pt-6 mt-4">
+                                            <a href="tel:+420545162070" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors text-sm shadow-md shadow-blue-500/20">
+                                                <Phone size={16} /> Zavolat
+                                            </a>
+                                            <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-100 text-slate-700 font-bold hover:bg-slate-200 transition-colors text-sm">
+                                                <Mail size={16} /> Napsat
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    {/* SLIDE 2: DOVOLENÁ & ZÁSTUP */}
+                                    <div className="flex-[0_0_100%] min-w-0 p-6 md:p-8 flex flex-col justify-between space-y-4">
+                                        <div>
+                                            <div className="flex items-center justify-between mb-4">
+                                                <h3 className="font-bold text-xl text-slate-900 flex items-center gap-2">
+                                                    <Calendar size={20} className="text-blue-600" />
+                                                    Plánované dovolené
+                                                </h3>
+                                                <span className="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold">
+                                                    Provoz & Zástup
+                                                </span>
+                                            </div>
+
+                                            {/* List of Vacations */}
+                                            <div className="space-y-2 mb-4">
+                                                {vacations.length > 0 ? (
+                                                    vacations.map((vac: any, idx: number) => (
+                                                        <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-amber-50/70 border border-amber-100 text-amber-900">
+                                                            <div className="flex items-center gap-2 font-bold text-sm">
+                                                                <ShieldAlert size={16} className="text-amber-600 shrink-0" />
+                                                                <span>{vac.title || "Dovolená"}</span>
+                                                            </div>
+                                                            <span className="font-bold text-xs bg-white px-2.5 py-1 rounded-lg border border-amber-200 shadow-xs">
+                                                                {formatDateRange(vac.startDate, vac.endDate)}
+                                                            </span>
                                                         </div>
-                                                    )}
-
-                                                    {/* Quick Actions Footer - Inside Slide */}
-                                                    <div className="grid grid-cols-2 gap-4 w-full pt-6 mt-auto">
-                                                        <a href="tel:+420545162070" className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-blue-50 text-blue-700 font-bold hover:bg-blue-100 transition-colors text-lg">
-                                                            <Phone size={20} /> Zavolat
-                                                        </a>
-                                                        <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 p-4 rounded-2xl bg-slate-50 text-slate-700 font-bold hover:bg-slate-100 transition-colors text-lg">
-                                                            <Mail size={20} /> Napsat
-                                                        </a>
+                                                    ))
+                                                ) : (
+                                                    <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-100 text-emerald-800 text-sm font-medium flex items-center gap-2">
+                                                        <CheckCircle2 size={18} className="text-emerald-600 shrink-0" />
+                                                        <span>V nejbližší době neplánujeme žádnou dovolenou.</span>
                                                     </div>
-                                                </div>
-                                            )}
+                                                )}
+                                            </div>
 
-                                            {/* ALERT CARD */}
-                                            {card.type === "ALERT" && (
-                                                <div className="flex flex-col h-full justify-center space-y-6">
-                                                    <div className="flex items-center gap-4 text-amber-600 mb-2">
-                                                        <div className="bg-amber-100 p-3 rounded-full">
-                                                            <AlertTriangle size={32} className="shrink-0" />
-                                                        </div>
-                                                        <h4 className="font-bold text-2xl leading-tight">{notice.alertTitle || "Upozornění"}</h4>
+                                            {/* Substitute Information Block */}
+                                            {notice?.substituteText && (
+                                                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-slate-700 text-sm space-y-1.5">
+                                                    <div className="font-bold text-slate-900 text-xs uppercase tracking-wider flex items-center gap-1.5 text-blue-600">
+                                                        <User size={14} /> V době nepřítomnosti zastupuje
                                                     </div>
-
-                                                    <div className="text-slate-800 font-medium text-xl leading-snug">
-                                                        {notice.alertText}
-                                                    </div>
-
-                                                    {notice.substituteText && (
-                                                        <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100 mt-4 text-base text-amber-900 leading-relaxed whitespace-pre-line shadow-sm">
-                                                            <strong className="block mb-2 text-amber-700 flex items-center gap-2 uppercase tracking-wide text-xs"><User size={14} /> Zástup</strong>
-                                                            {notice.substituteText}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
-
-                                            {/* CUSTOM INFO CARD */}
-                                            {card.type === "CUSTOM_INFO" && (
-                                                <div className="flex flex-col h-full justify-center">
-                                                    <div className="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mb-6 text-blue-600 shadow-sm">
-                                                        <Info size={32} />
-                                                    </div>
-                                                    <h4 className="font-bold text-2xl text-slate-900 mb-4">
-                                                        {notice.customInfoTitle}
-                                                    </h4>
-                                                    <p className="text-slate-600 text-lg leading-relaxed">
-                                                        {notice.customInfoText}
-                                                    </p>
-                                                    <div className="mt-auto pt-8">
-                                                        <Link href="#contact" className="w-full flex items-center justify-center gap-2 p-4 rounded-2xl bg-slate-900 text-white font-bold text-lg hover:bg-slate-800 transition-colors shadow-lg">
-                                                            Pro více informací nás kontaktujte
-                                                        </Link>
+                                                    <div className="text-slate-600 font-medium whitespace-pre-line leading-relaxed text-xs">
+                                                        {notice.substituteText}
                                                     </div>
                                                 </div>
                                             )}
                                         </div>
-                                    ))}
+
+                                        <div className="pt-2">
+                                            <Link href="#contact" className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-900 text-white font-bold text-sm hover:bg-slate-800 transition-colors shadow-md">
+                                                Kontaktovat ordinaci
+                                            </Link>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
-                            {/* Pagination Dots */}
-                            <div className="flex justify-center gap-2 pb-6">
-                                {scrollSnaps.map((_, index) => (
+                            {/* Bottom Carousel Dots */}
+                            <div className="flex justify-center gap-2 pb-4 pt-1">
+                                {[0, 1].map((index) => (
                                     <button
                                         key={index}
                                         className={cn(
-                                            "w-2.5 h-2.5 rounded-full transition-all duration-300",
-                                            index === selectedIndex ? "bg-blue-600 w-8" : "bg-slate-300 hover:bg-slate-400"
+                                            "h-2 rounded-full transition-all duration-300",
+                                            index === selectedIndex ? "bg-blue-600 w-6" : "bg-slate-200 hover:bg-slate-300 w-2"
                                         )}
                                         onClick={() => emblaApi && emblaApi.scrollTo(index)}
-                                        aria-label={`Go to slide ${index + 1}`}
+                                        aria-label={`Přejít na kartu ${index + 1}`}
                                     />
                                 ))}
                             </div>
