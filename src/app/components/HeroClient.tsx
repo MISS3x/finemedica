@@ -143,7 +143,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
             <div className="container relative z-10">
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-                    {/* Left Column: Text & CTA */}
+                    {/* Left Column: Text, CTA & Substitute Info in White Area */}
                     <div className="lg:col-span-6 text-center lg:text-left space-y-6">
                         {/* Optional Badge if accepting patients */}
                         {notice?.acceptingNewPatients && (
@@ -188,7 +188,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         </div>
 
                         {/* Trust Indicators */}
-                        <div className="pt-6 border-t border-slate-200/60 flex gap-6 justify-center lg:justify-start text-slate-500">
+                        <div className="pt-4 border-t border-slate-200/60 flex flex-wrap gap-6 justify-center lg:justify-start text-slate-500">
                             <div className="flex items-center gap-2">
                                 <CheckCircle2 size={18} className="text-blue-500" />
                                 <span className="font-medium text-sm">Smlouvy se všemi pojišťovnami</span>
@@ -198,6 +198,19 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                 <span className="font-medium text-sm">Online objednání</span>
                             </div>
                         </div>
+
+                        {/* Substitute Info Moved to Left Column (Filling the white space perfectly) */}
+                        {substituteText && (
+                            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border border-amber-200 text-left space-y-2 shadow-sm animate-in fade-in duration-300">
+                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-amber-900">
+                                    <User size={16} className="text-amber-600 shrink-0" />
+                                    V případě dovolené zastupuje:
+                                </div>
+                                <div className="text-sm font-bold text-amber-950 leading-relaxed border-l-4 border-amber-500 pl-3">
+                                    {substituteText}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     {/* Right Column: Interactive 2-Slide Hero Container */}
@@ -345,7 +358,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     </div>
                                 </div>
 
-                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP */}
+                                {/* SLIDE 2: DOVOLENÁ 2026 */}
                                 <div className={cn(
                                     "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
                                     selectedIndex === 1 ? "opacity-100" : "opacity-30"
@@ -353,11 +366,11 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     <div className="flex items-center justify-between">
                                         <p className="text-xs text-orange-300 font-medium">Plánované termíny dovolených</p>
                                         <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shrink-0 bg-orange-500/20 text-orange-300 border border-orange-500/30">
-                                            Informace & Zástup
+                                            Přehled dovolených
                                         </span>
                                     </div>
 
-                                    {/* Vacations List */}
+                                    {/* Vacations List (Identical height & padding to Slide 1) */}
                                     <div className="space-y-2">
                                         {vacations.map((vac: any, idx: number) => (
                                             <div
@@ -375,17 +388,18 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                         ))}
                                     </div>
 
-                                    {/* Substitute Info */}
-                                    {substituteText && (
-                                        <div className="p-4 rounded-xl bg-gradient-to-br from-amber-950/90 to-orange-950/90 border border-orange-500/40 space-y-2 shadow-lg">
-                                            <div className="font-bold text-xs uppercase tracking-wider text-orange-300 flex items-center gap-1.5">
-                                                <User size={16} className="text-orange-400" /> V případě dovolené zastupuje:
-                                            </div>
-                                            <div className="text-sm font-bold text-orange-50 whitespace-pre-line leading-relaxed pl-3 border-l-4 border-orange-500">
-                                                {substituteText}
-                                            </div>
-                                        </div>
-                                    )}
+                                    {/* Quick Action Buttons for Slide 2 */}
+                                    <div className="grid grid-cols-2 gap-3 pt-2">
+                                        <button
+                                            onClick={() => setIsPhoneModalOpen(true)}
+                                            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-orange-600 text-white font-bold hover:bg-orange-500 transition-colors text-sm shadow-md shadow-orange-600/30"
+                                        >
+                                            <Phone size={16} /> Zavolat
+                                        </button>
+                                        <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
+                                            <Mail size={16} /> Napsat
+                                        </a>
+                                    </div>
                                 </div>
 
                             </div>
