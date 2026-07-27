@@ -39,8 +39,10 @@ export default function AboutUs() {
                         </div>
 
                         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-                            Praktický lékař pro dospělé <br />
-                            <span className="text-blue-600">v Brně (FineMedica)</span>
+                            Ordinace <span className="text-blue-600">FineMedica</span> <br />
+                            <span className="text-xl md:text-2xl font-semibold text-slate-600 block mt-2">
+                                Praktický lékař pro dospělé v Brně
+                            </span>
                         </h2>
 
                         <p className="text-lg text-slate-600 leading-relaxed">
