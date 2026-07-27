@@ -63,7 +63,7 @@ export default function Navbar() {
                             +420 545 162 070
                         </Link>
                         <Link
-                            href="#contact"
+                            href="/#contact"
                             className="px-5 py-2.5 bg-slate-900 text-white rounded-full text-sm font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
                         >
                             Objednat se
