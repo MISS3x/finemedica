@@ -13,19 +13,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MUDr. Jana Petrušková & MUDr. Dagmar Rusková | Praktický lékař pro dospělé v Brně",
-  description: "Ordinace praktického lékaře pro dospělé v Brně – MUDr. Jana Petrušková a MUDr. Dagmar Rusková. Kompletní péče, EKG, preventivní a závodní prohlídky, očkování. Špitálka 6, Brno.",
+  title: "MUDr. Jana Petrušková & MUDr. Dagmar Rusková | Praktický lékař pro dospělé v Brně (FineMedica)",
+  description: "Poskytujeme léčebně preventivní péči v oboru praktického lékařství pro dospělé v Brně. Registrace na tel: +420 545 162 070 nebo ordinace@finemedica.cz. Zavolejte nebo napište a my Vám řekneme, zda máme aktuálně volná místa.",
   keywords: [
+    "praktický lékař pro dospělé v Brně",
+    "nejlepší praktický lékař Brno",
+    "praktik Brno střed",
+    "potřebuji praktického lékaře Brno střed",
+    "volná místa praktický lékař Brno",
     "MUDr. Jana Petrušková",
     "MUDr. Dagmar Rusková",
-    "Praktický lékař pro dospělé v Brně",
-    "praktický lékař Brno",
-    "praktik Brno Zábrdovice",
-    "obvodní lékař Brno",
     "ordinace Špitálka Brno",
+    "obvodní lékař Brno",
     "závodní péče Brno",
     "vyšetření EKG Brno",
-    "preventivní prohlídky Brno",
+    "CRP vyšetření Brno",
     "očkování Brno",
     "FineMedica"
   ],
@@ -33,9 +35,9 @@ export const metadata: Metadata = {
   creator: "FineMedica",
   openGraph: {
     title: "MUDr. Jana Petrušková & MUDr. Dagmar Rusková | Praktický lékař pro dospělé v Brně",
-    description: "Moderní ordinace praktického lékaře pro dospělé v Brně. MUDr. Jana Petrušková & MUDr. Dagmar Rusková. Špitálka 253/6, Brno.",
+    description: "Poskytujeme léčebně preventivní péči v oboru praktického lékařství pro dospělé v Brně. Registrace na tel: +420 545 162 070 nebo ordinace@finemedica.cz.",
     url: "https://www.finemedica.cz",
-    siteName: "FineMedica",
+    siteName: "FineMedica - Praktický lékař Brno",
     locale: "cs_CZ",
     type: "website",
   },
@@ -45,61 +47,80 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "MedicalClinic",
-  "name": "FineMedica s.r.o. - Praktický lékař pro dospělé v Brně",
-  "alternateName": "MUDr. Jana Petrušková a MUDr. Dagmar Rusková",
-  "url": "https://www.finemedica.cz",
-  "logo": "https://www.finemedica.cz/logo.svg",
-  "telephone": "+420545162070",
-  "email": "ordinace@finemedica.cz",
-  "medicalSpecialty": "PrimaryCare",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Špitálka 253/6",
-    "addressLocality": "Brno-Zábrdovice",
-    "postalCode": "602 00",
-    "addressCountry": "CZ"
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "FineMedica s.r.o. - Praktický lékař pro dospělé v Brně",
+    "alternateName": ["MUDr. Jana Petrušková", "MUDr. Dagmar Rusková", "Praktik Brno střed", "Praktický lékař Brno-Zábrdovice"],
+    "description": "Poskytujeme léčebně preventivní péči v oboru praktického lékařství pro dospělé v Brně, odběry biologického materiálu a aplikaci očkovacích látek. Registrace na tel: +420 545 162 070 nebo ordinace@finemedica.cz. Zavolejte nebo napište a my Vám řekneme, zda máme aktuálně volná místa.",
+    "url": "https://www.finemedica.cz",
+    "logo": "https://www.finemedica.cz/logo.svg",
+    "telephone": "+420545162070",
+    "email": "ordinace@finemedica.cz",
+    "medicalSpecialty": "PrimaryCare",
+    "areaServed": [
+      {
+        "@type": "AdministrativeArea",
+        "name": "Brno"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Brno-střed"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Brno-Zábrdovice"
+      }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Špitálka 253/6",
+      "addressLocality": "Brno-Zábrdovice",
+      "postalCode": "602 00",
+      "addressCountry": "CZ"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 49.19318,
+      "longitude": 16.62061
+    },
+    "physician": [
+      {
+        "@type": "IndividualPhysician",
+        "name": "MUDr. Jana Petrušková",
+        "jobTitle": "Praktický lékař pro dospělé v Brně"
+      },
+      {
+        "@type": "IndividualPhysician",
+        "name": "MUDr. Dagmar Rusková",
+        "jobTitle": "Praktický lékař pro dospělé v Brně"
+      }
+    ]
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 49.19318,
-    "longitude": 16.62061
-  },
-  "physician": [
-    {
-      "@type": "IndividualPhysician",
-      "name": "MUDr. Jana Petrušková",
-      "jobTitle": "Praktický lékař pro dospělé"
-    },
-    {
-      "@type": "IndividualPhysician",
-      "name": "MUDr. Dagmar Rusková",
-      "jobTitle": "Praktický lékař pro dospělé"
-    }
-  ],
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Wednesday", "Thursday"],
-      "opens": "07:00",
-      "closes": "13:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Tuesday",
-      "opens": "11:00",
-      "closes": "18:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": "Friday",
-      "opens": "07:00",
-      "closes": "12:00"
-    }
-  ]
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Potřebuji praktického lékaře v Brně (Brno-střed). Jak se mohu zaregistrovat?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Registrace na tel: +420 545 162 070, případně na ordinace@finemedica.cz. Zavolejte nebo napište a my Vám řekneme, zda máme aktuálně volná místa."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Přijímá ordinace FineMedica Brno nové pacienty?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Registrace na tel: +420 545 162 070, případně na ordinace@finemedica.cz. Zavolejte nebo napište a my Vám řekneme, zda máme aktuálně volná místa."
+        }
+      }
+    ]
+  }
+];
 
 export default function RootLayout({
   children,
