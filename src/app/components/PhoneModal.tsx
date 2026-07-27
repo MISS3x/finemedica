@@ -119,9 +119,9 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200"
             onClick={handleClose}
         >
-            {/* Dark Sleek Modal Box 1:1 matching user screenshot */}
+            {/* Dark Sleek Modal Box matching user screenshot - ALWAYS 1 LINE FOR PHONE NUMBER */}
             <div
-                className="relative w-full max-w-xl bg-[#1c2230] rounded-[2rem] p-6 sm:p-10 shadow-2xl border border-slate-700/80 text-white space-y-6 animate-in zoom-in-95 duration-200"
+                className="relative w-full max-w-lg sm:max-w-xl bg-[#1c2230] rounded-[2rem] p-6 sm:p-8 shadow-2xl border border-slate-700/80 text-white space-y-5 animate-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Close Button */}
@@ -133,33 +133,35 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
                     <X size={20} />
                 </button>
 
-                {/* Content Row matching user's screenshot 1:1 */}
-                <div className="flex items-start gap-5">
+                {/* Header Row matching user's screenshot */}
+                <div className="flex items-start gap-4 pr-10">
                     {/* Left Round Blue Phone Icon */}
-                    <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/40 mt-1">
-                        <Phone size={28} />
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/40 mt-0.5">
+                        <Phone size={26} />
                     </div>
 
-                    {/* Text & Phone Details */}
-                    <div className="space-y-2 flex-1 pr-6">
-                        <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                    {/* Title & Large Operating Hours */}
+                    <div className="space-y-1">
+                        <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
                             Objednejte se telefonicky
                         </h3>
 
                         {/* VELKÁ INSTRUKCE HODIN */}
-                        <p className="text-slate-300 font-semibold text-lg sm:text-xl">
+                        <p className="text-slate-300 font-semibold text-base sm:text-lg">
                             {timeInstruction}
                         </p>
-
-                        {/* GIANT LIGHT BLUE PHONE NUMBER */}
-                        <a
-                            href="tel:+420545162070"
-                            data-modal-call="true"
-                            className="inline-block pt-3 text-3xl sm:text-5xl font-black text-[#75aaff] hover:text-white font-mono tracking-wider transition-colors"
-                        >
-                            +420 545 162 070
-                        </a>
                     </div>
+                </div>
+
+                {/* GIANT LIGHT BLUE PHONE NUMBER - STRICTLY ALWAYS ON 1 SINGLE LINE */}
+                <div className="pt-1">
+                    <a
+                        href="tel:+420545162070"
+                        data-modal-call="true"
+                        className="block text-2xl sm:text-4xl md:text-5xl font-black text-[#75aaff] hover:text-white font-mono tracking-normal sm:tracking-wider whitespace-nowrap transition-colors"
+                    >
+                        +420 545 162 070
+                    </a>
                 </div>
 
                 {/* Mobile Call Button */}
