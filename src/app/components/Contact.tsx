@@ -227,9 +227,14 @@ export default function Contact() {
 
                         {/* RIGHT COLUMN: Interactive Embedded Google Street View */}
                         <div className="space-y-3">
-                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">
-                                <Camera size={14} className="text-amber-600" />
-                                2. Street View pohled na budovu
+                            <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider text-slate-500 pl-1 pr-1">
+                                <div className="flex items-center gap-2">
+                                    <Camera size={14} className="text-amber-600" />
+                                    2. Street View pohled na budovu
+                                </div>
+                                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 font-extrabold normal-case text-xs border border-amber-200 shadow-xs">
+                                    🟡 Jsme ta žlutá budova
+                                </span>
                             </div>
                             <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100">
                                 <iframe
