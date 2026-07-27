@@ -32,8 +32,8 @@ export default function HeroClient({ notice }: HeroClientProps) {
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [progress, setProgress] = useState(0);
 
-    // Embla carousel for 2 slides
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
+    // Embla carousel for 2 slides with smooth looping
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, speed: 12 });
 
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
@@ -70,7 +70,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                     }
                 }
             }
-        }, 50);
+        }, 30);
 
         return () => clearInterval(interval);
     }, [selectedIndex, emblaApi]);
@@ -342,7 +342,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     </div>
                                 </div>
 
-                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP (1:1 Layout & Typography like Slide 1) */}
+                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP */}
                                 <div className={cn(
                                     "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
                                     selectedIndex === 1 ? "opacity-100" : "opacity-30"
@@ -354,7 +354,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                         </span>
                                     </div>
 
-                                    {/* Vacations List (1:1 Styling like Slide 1 rows) */}
+                                    {/* Vacations List */}
                                     <div className="space-y-2">
                                         {vacations.map((vac: any, idx: number) => (
                                             <div
@@ -372,7 +372,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                         ))}
                                     </div>
 
-                                    {/* Substitute Info (1:1 Prominent Styling) */}
+                                    {/* Substitute Info */}
                                     {substituteText && (
                                         <div className="p-4 rounded-xl bg-gradient-to-br from-amber-950/90 to-orange-950/90 border border-orange-500/40 space-y-2 shadow-lg">
                                             <div className="font-bold text-xs uppercase tracking-wider text-orange-300 flex items-center gap-1.5">
