@@ -30,6 +30,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
     const [status, setStatus] = useState<"OPEN" | "CLOSING_SOON" | "AFTER_HOURS" | "CLOSED">("CLOSED");
     const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
     const [selectedIndex, setSelectedIndex] = useState(0);
+    const [progress, setProgress] = useState(0);
 
     // Embla carousel for 2 slides
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false });
@@ -47,6 +48,32 @@ export default function HeroClient({ notice }: HeroClientProps) {
         onSelect();
         emblaApi.on("select", onSelect);
     }, [emblaApi, onSelect]);
+
+    // 10-Second Auto Slider with Directional Animated Progress Line
+    useEffect(() => {
+        setProgress(0);
+        const startTime = Date.now();
+        const DURATION = 10000; // 10 seconds
+
+        const interval = setInterval(() => {
+            const elapsed = Date.now() - startTime;
+            const p = Math.min(100, (elapsed / DURATION) * 100);
+            setProgress(p);
+
+            if (elapsed >= DURATION) {
+                clearInterval(interval);
+                if (emblaApi) {
+                    if (selectedIndex === 0) {
+                        emblaApi.scrollTo(1);
+                    } else {
+                        emblaApi.scrollTo(0);
+                    }
+                }
+            }
+        }, 50);
+
+        return () => clearInterval(interval);
+    }, [selectedIndex, emblaApi]);
 
     // Calculate current operating status & today's index
     useEffect(() => {
@@ -176,31 +203,48 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         
                         {/* Header with 2-Page Tabs & Controls */}
                         <div className="flex items-center justify-between border-b border-slate-800 pb-4 relative z-10">
-                            <div className="flex bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700">
-                                <button
-                                    onClick={() => emblaApi && emblaApi.scrollTo(0)}
+                            
+                            {/* Tab Bar Container with Animated Directional Progress Line */}
+                            <div className="relative bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700 overflow-hidden">
+                                <div className="flex relative z-10">
+                                    <button
+                                        onClick={() => emblaApi && emblaApi.scrollTo(0)}
+                                        className={cn(
+                                            "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
+                                            selectedIndex === 0
+                                                ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
+                                                : "text-slate-400 hover:text-white"
+                                        )}
+                                    >
+                                        <Clock size={16} />
+                                        Ordinační hodiny
+                                    </button>
+                                    <button
+                                        onClick={() => emblaApi && emblaApi.scrollTo(1)}
+                                        className={cn(
+                                            "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
+                                            selectedIndex === 1
+                                                ? "bg-orange-600 text-white shadow-md shadow-orange-600/30"
+                                                : "text-slate-400 hover:text-orange-300"
+                                        )}
+                                    >
+                                        <Calendar size={16} />
+                                        Dovolená & Zástup
+                                    </button>
+                                </div>
+
+                                {/* Animated 10s Progress Bar:
+                                    - Left-to-Right from Blue to Orange when index 0
+                                    - Right-to-Left from Orange to Blue when index 1 */}
+                                <div
                                     className={cn(
-                                        "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
+                                        "absolute bottom-0 h-1.5 rounded-full transition-all duration-75 ease-linear pointer-events-none shadow-md",
                                         selectedIndex === 0
-                                            ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
-                                            : "text-slate-400 hover:text-white"
+                                            ? "left-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-orange-500 shadow-blue-500/50"
+                                            : "right-0 bg-gradient-to-l from-orange-500 via-amber-500 to-blue-500 shadow-orange-500/50"
                                     )}
-                                >
-                                    <Clock size={16} />
-                                    Ordinační hodiny
-                                </button>
-                                <button
-                                    onClick={() => emblaApi && emblaApi.scrollTo(1)}
-                                    className={cn(
-                                        "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
-                                        selectedIndex === 1
-                                            ? "bg-orange-600 text-white shadow-md shadow-orange-600/30"
-                                            : "text-slate-400 hover:text-orange-300"
-                                    )}
-                                >
-                                    <Calendar size={16} />
-                                    Dovolená & Zástup
-                                </button>
+                                    style={{ width: `${progress}%` }}
+                                />
                             </div>
 
                             {/* Arrow Controls */}
@@ -222,12 +266,15 @@ export default function HeroClient({ notice }: HeroClientProps) {
                             </div>
                         </div>
 
-                        {/* Carousel Viewport */}
+                        {/* Carousel Viewport with Fade Transitions */}
                         <div className="overflow-hidden relative z-10" ref={emblaRef}>
                             <div className="flex touch-pan-y">
 
-                                {/* SLIDE 1: ORDINAČNÍ HODINY (1:1 styling like Hours.tsx) */}
-                                <div className="flex-[0_0_100%] min-w-0 space-y-4">
+                                {/* SLIDE 1: ORDINAČNÍ HODINY */}
+                                <div className={cn(
+                                    "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
+                                    selectedIndex === 0 ? "opacity-100" : "opacity-30"
+                                )}>
                                     <div className="flex items-center justify-between">
                                         <p className="text-xs text-slate-400">Špitálka 253/6, Brno-Zábrdovice</p>
                                         <span className={cn(
@@ -243,7 +290,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                         </span>
                                     </div>
 
-                                    {/* Hours Table 1:1 */}
+                                    {/* Hours Table */}
                                     <div className="space-y-2">
                                         {hoursList.map((item) => {
                                             const isToday = currentDayIndex === item.dayIndex;
@@ -292,8 +339,11 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     </div>
                                 </div>
 
-                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP (Warm Orange Palette) */}
-                                <div className="flex-[0_0_100%] min-w-0 space-y-4">
+                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP */}
+                                <div className={cn(
+                                    "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
+                                    selectedIndex === 1 ? "opacity-100" : "opacity-30"
+                                )}>
                                     <div className="flex items-center justify-between border-b border-orange-500/30 pb-2">
                                         <h4 className="font-bold text-base text-orange-400 flex items-center gap-2">
                                             <ShieldAlert size={18} className="text-orange-500" />
@@ -304,7 +354,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                         </span>
                                     </div>
 
-                                    {/* Vacations List in Orange Tone */}
+                                    {/* Vacations List */}
                                     <div className="space-y-2">
                                         {vacations.map((vac: any, idx: number) => (
                                             <div
@@ -319,7 +369,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                         ))}
                                     </div>
 
-                                    {/* Substitute Info in Warm Orange Tone */}
+                                    {/* Substitute Info */}
                                     {substituteText && (
                                         <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-950/80 to-orange-950/80 border border-orange-500/40 space-y-1.5 shadow-lg">
                                             <div className="font-bold text-xs uppercase tracking-wider text-orange-300 flex items-center gap-1.5">
