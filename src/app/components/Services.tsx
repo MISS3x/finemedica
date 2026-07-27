@@ -31,9 +31,9 @@ const services: Service[] = [
     },
     {
         icon: Activity,
-        title: "Pracovně-lékařské služby",
-        description: "Zajištění vstupních, periodických a výstupních prohlídek pro firmy.",
-        items: ["Kategorizace prací", "Dohled na pracovišti", "Zdravotní dokumentace"]
+        title: "Závodní péče & Prohlídky",
+        description: "Vstupní, periodické a výstupní prohlídky pro zaměstnance i smluvní firmy.",
+        items: ["Vstupní a výstupní prohlídky", "Periodické prohlídky", "Kategorizace prací"]
     },
     {
         icon: Car,
