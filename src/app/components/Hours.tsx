@@ -1,18 +1,27 @@
 "use client";
 
 import { Clock, Phone, AlertCircle, User, Calendar, ShieldAlert } from "lucide-react";
+import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 interface HoursProps {
     notice?: any;
 }
 
 export default function Hours({ notice }: HoursProps) {
+    const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
+
+    useEffect(() => {
+        const now = new Date();
+        setCurrentDayIndex(now.getDay()); // 0 = Sun, 1 = Mon, 2 = Tue ...
+    }, []);
+
     const hours = [
-        { day: "Pondělí", time: "7:00 – 13:00", info: "Odběry do 9:00" },
-        { day: "Úterý", time: "11:00 – 18:00", info: "Odpolední ordinace" },
-        { day: "Středa", time: "7:00 – 13:00", info: "Odběry do 9:00" },
-        { day: "Čtvrtek", time: "7:00 – 13:00", info: "Odběry do 9:00" },
-        { day: "Pátek", time: "7:00 – 12:00", info: "Pouze akutní" },
+        { dayIndex: 1, day: "Pondělí", time: "7:00 – 13:00", info: "Odběry do 9:00" },
+        { dayIndex: 2, day: "Úterý", time: "11:00 – 18:00", info: "Odpolední ordinace" },
+        { dayIndex: 3, day: "Středa", time: "7:00 – 13:00", info: "Odběry do 9:00" },
+        { dayIndex: 4, day: "Čtvrtek", time: "7:00 – 13:00", info: "Odběry do 9:00" },
+        { dayIndex: 5, day: "Pátek", time: "7:00 – 12:00", info: "Pouze akutní" },
     ];
 
     const vacations = notice?.vacations || [];
@@ -70,24 +79,42 @@ export default function Hours({ notice }: HoursProps) {
                             </div>
                         </div>
 
-                        {/* Hours Table */}
-                        <div className="space-y-4 bg-white/5 p-6 rounded-3xl border border-white/10">
-                            {hours.map((item, index) => (
-                                <div
-                                    key={index}
-                                    className="flex items-center justify-between p-4 rounded-xl bg-white/5 border border-white/5 transition-all"
-                                >
-                                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
-                                        <span className="font-bold text-xl text-white w-28">{item.day}</span>
-                                        {item.info && (
-                                            <span className="text-xs font-semibold px-2.5 py-1 rounded bg-blue-500/20 text-blue-200">
-                                                {item.info}
-                                            </span>
+                        {/* Hours Table with Today Highlighted */}
+                        <div className="space-y-3 bg-white/5 p-6 rounded-3xl border border-white/10">
+                            {hours.map((item) => {
+                                const isToday = currentDayIndex === item.dayIndex;
+                                return (
+                                    <div
+                                        key={item.day}
+                                        className={cn(
+                                            "flex items-center justify-between p-4 rounded-xl transition-all",
+                                            isToday
+                                                ? "bg-blue-600 text-white font-bold shadow-lg border-l-4 border-l-blue-300"
+                                                : "bg-white/5 border border-white/5 text-slate-200 hover:bg-white/10"
                                         )}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <span className="font-bold text-xl text-white w-28">{item.day}</span>
+                                            {isToday && (
+                                                <span className="text-xs uppercase font-extrabold px-2.5 py-0.5 rounded bg-white text-blue-800 shadow-xs">
+                                                    Dnes
+                                                </span>
+                                            )}
+                                            {!isToday && item.info && (
+                                                <span className="text-xs font-semibold px-2.5 py-1 rounded bg-blue-500/20 text-blue-200 hidden sm:inline">
+                                                    {item.info}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className={cn(
+                                            "font-mono text-xl font-bold tracking-wide",
+                                            isToday ? "text-white" : "text-blue-300"
+                                        )}>
+                                            {item.time}
+                                        </span>
                                     </div>
-                                    <span className="font-mono text-xl text-blue-300 font-bold tracking-wide">{item.time}</span>
-                                </div>
-                            ))}
+                                );
+                            })}
 
                             <div className="mt-6 pt-6 border-t border-white/10 flex items-start gap-3 text-sm text-slate-300">
                                 <AlertCircle size={18} className="mt-0.5 text-blue-400 shrink-0" />
