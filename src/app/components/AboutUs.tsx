@@ -1,13 +1,11 @@
 "use client";
 
 import { Shield, Activity, Clock, Heart, User, ArrowRight, ChevronDown, ChevronUp, CheckCircle2 } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
 const aboutImages = [
     { src: "/images/doctor_talking.png", alt: "Lékařka hovořící s pacientem" },
-    { src: "/images/building.jpg", alt: "Budova ordinace na Špitálce 6, Brno" },
     { src: "/images/medical_desk.png", alt: "Moderní diagnostické vybavení" },
     { src: "/images/waiting_room.png", alt: "Příjemné prostředí ordinace" },
 ];
@@ -117,9 +115,9 @@ export default function AboutUs() {
                         </div>
                     </div>
 
-                    {/* Image Column - Single Clean Frame with Slow Cross-Fade Animation */}
+                    {/* Image Column - Seamless Gradient Frame without Borders or Carousel Dots */}
                     <div className="relative lg:h-[550px] flex items-center justify-center">
-                        <div className="relative w-full max-w-[480px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-slate-900">
+                        <div className="relative w-full max-w-[480px] aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-xl border border-slate-100/60 bg-slate-50">
                             {aboutImages.map((img, idx) => (
                                 <div
                                     key={img.src}
@@ -137,25 +135,14 @@ export default function AboutUs() {
                                 </div>
                             ))}
 
-                            {/* Carousel Indicators / Dots */}
-                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2 bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
-                                {aboutImages.map((_, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentImageIndex(idx)}
-                                        className={`h-2 rounded-full transition-all duration-300 ${
-                                            idx === currentImageIndex ? "w-6 bg-white" : "w-2 bg-white/40 hover:bg-white/70"
-                                        }`}
-                                        aria-label={`Přejít na snímek ${idx + 1}`}
-                                    />
-                                ))}
-                            </div>
+                            {/* Seamless Gradient Overlay blending the image subtly into the white background */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-white/20 z-20 pointer-events-none" />
                         </div>
 
-                        {/* Background blobs behind main image */}
+                        {/* Soft Glow Ambient Blobs behind main image */}
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] -z-10 pointer-events-none">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100/60 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-100/60 rounded-full mix-blend-multiply filter opacity-70 blur-3xl animate-blob animation-delay-2000"></div>
                         </div>
                     </div>
                 </div>
