@@ -90,7 +90,7 @@ export default function Hours({ notice }: HoursProps) {
                             ))}
 
                             <div className="mt-6 pt-6 border-t border-white/10 flex items-start gap-3 text-sm text-slate-300">
-                                <AlertCircle size={18} className="mt-0.5 text-orange-400 shrink-0" />
+                                <AlertCircle size={18} className="mt-0.5 text-blue-400 shrink-0" />
                                 <p className="leading-relaxed">
                                     Poslední pacient je ošetřen 30 minut před koncem pracovní doby.
                                     V případě akutních potíží nás kontaktujte telefonicky ráno.
@@ -100,13 +100,13 @@ export default function Hours({ notice }: HoursProps) {
                     </div>
                 </div>
 
-                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP */}
+                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP (Sleek Clean Blue Design) */}
                 <div className="grid lg:grid-cols-2 gap-8 items-start">
 
                     {/* BLOK DOVOLENÁ 2026 */}
                     <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-md space-y-6">
                         <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0">
+                            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 flex items-center justify-center font-bold shrink-0">
                                 <Calendar size={24} />
                             </div>
                             <div>
@@ -119,13 +119,13 @@ export default function Hours({ notice }: HoursProps) {
                             {vacations.map((vac: any, idx: number) => (
                                 <div
                                     key={idx}
-                                    className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                                    className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
                                 >
                                     <div className="flex items-center gap-2">
-                                        <ShieldAlert size={18} className="text-amber-600 shrink-0" />
+                                        <ShieldAlert size={18} className="text-blue-600 shrink-0" />
                                         <span className="font-bold text-slate-900 text-base">{vac.title}</span>
                                     </div>
-                                    <span className="font-bold text-sm bg-white px-3 py-1 rounded-lg border border-amber-300 text-amber-900 text-right shadow-xs">
+                                    <span className="font-bold text-sm bg-blue-100/80 text-blue-900 px-3 py-1 rounded-lg border border-blue-200 text-right shadow-xs">
                                         {formatDateRange(vac)}
                                     </span>
                                 </div>
@@ -136,7 +136,7 @@ export default function Hours({ notice }: HoursProps) {
                     {/* BLOK ZÁSTUP V DOBĚ DOVOLENÉ */}
                     <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-md space-y-6">
                         <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold shrink-0">
+                            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 flex items-center justify-center font-bold shrink-0">
                                 <User size={24} />
                             </div>
                             <div>
@@ -146,8 +146,8 @@ export default function Hours({ notice }: HoursProps) {
                         </div>
 
                         {substituteText && (
-                            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 space-y-2">
-                                <div className="text-lg font-bold text-blue-900 whitespace-pre-line leading-relaxed border-l-4 border-blue-600 pl-4 py-1">
+                            <div className="p-6 rounded-2xl bg-blue-50/50 border border-blue-100 text-slate-900 space-y-2">
+                                <div className="text-lg font-bold text-blue-950 whitespace-pre-line leading-relaxed border-l-4 border-blue-600 pl-4 py-1">
                                     {substituteText}
                                 </div>
                             </div>
