@@ -127,58 +127,70 @@ export default function Hours({ notice }: HoursProps) {
                     </div>
                 </div>
 
-                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP (Warm Rich Orange Palette) */}
-                <div className="grid lg:grid-cols-2 gap-8 items-start">
+                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP (Rovnoměrně vysoké karty - items-stretch) */}
+                <div className="grid lg:grid-cols-2 gap-8 items-stretch">
 
                     {/* BLOK DOVOLENÁ 2026 */}
-                    <div className="bg-orange-50/60 rounded-[2rem] p-8 border border-orange-200/80 shadow-md space-y-6">
-                        <div className="flex items-center gap-3 border-b border-orange-200 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-orange-600/30">
-                                <Calendar size={24} />
+                    <div className="bg-orange-50/60 rounded-[2rem] p-8 border border-orange-200/80 shadow-md flex flex-col justify-between space-y-6 h-full">
+                        <div>
+                            <div className="flex items-center gap-3 border-b border-orange-200 pb-4 mb-6">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-orange-600/30">
+                                    <Calendar size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-orange-950">DOVOLENÁ 2026</h3>
+                                    <p className="text-xs text-orange-800 font-medium">Plánované termíny dovolených a úpravy provozu</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-orange-950">DOVOLENÁ 2026</h3>
-                                <p className="text-xs text-orange-800 font-medium">Plánované termíny dovolených a úpravy provozu</p>
+
+                            <div className="space-y-3">
+                                {vacations.map((vac: any, idx: number) => (
+                                    <div
+                                        key={idx}
+                                        className="p-4 rounded-xl bg-white border border-orange-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <ShieldAlert size={18} className="text-orange-600 shrink-0" />
+                                            <span className="font-bold text-slate-900 text-base">{vac.title}</span>
+                                        </div>
+                                        <span className="font-bold text-sm bg-orange-600 text-white px-3 py-1 rounded-lg text-right shadow-xs">
+                                            {formatDateRange(vac)}
+                                        </span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
-                        <div className="space-y-3">
-                            {vacations.map((vac: any, idx: number) => (
-                                <div
-                                    key={idx}
-                                    className="p-4 rounded-xl bg-white border border-orange-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs"
-                                >
-                                    <div className="flex items-center gap-2">
-                                        <ShieldAlert size={18} className="text-orange-600 shrink-0" />
-                                        <span className="font-bold text-slate-900 text-base">{vac.title}</span>
-                                    </div>
-                                    <span className="font-bold text-sm bg-orange-600 text-white px-3 py-1 rounded-lg text-right shadow-xs">
-                                        {formatDateRange(vac)}
-                                    </span>
-                                </div>
-                            ))}
+                        <div className="pt-4 border-t border-orange-200/60 text-xs text-orange-900 font-medium">
+                            * V době dovolených je ordinace zavřená, akustická péče je zajištěna zastupujícím lékařem.
                         </div>
                     </div>
 
                     {/* BLOK ZÁSTUP V DOBĚ DOVOLENÉ */}
-                    <div className="bg-orange-50/60 rounded-[2rem] p-8 border border-orange-200/80 shadow-md space-y-6">
-                        <div className="flex items-center gap-3 border-b border-orange-200 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-orange-600/30">
-                                <User size={24} />
-                            </div>
-                            <div>
-                                <h3 className="text-2xl font-bold text-orange-950">Zástup v době dovolené</h3>
-                                <p className="text-xs text-orange-800 font-medium">V případě naší nepřítomnosti zastupuje:</p>
-                            </div>
-                        </div>
-
-                        {substituteText && (
-                            <div className="p-6 rounded-2xl bg-white border border-orange-200/80 text-slate-900 space-y-2 shadow-xs">
-                                <div className="text-lg font-bold text-orange-950 whitespace-pre-line leading-relaxed border-l-4 border-orange-500 pl-4 py-1">
-                                    {substituteText}
+                    <div className="bg-orange-50/60 rounded-[2rem] p-8 border border-orange-200/80 shadow-md flex flex-col justify-between space-y-6 h-full">
+                        <div>
+                            <div className="flex items-center gap-3 border-b border-orange-200 pb-4 mb-6">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-orange-600/30">
+                                    <User size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-2xl font-bold text-orange-950">Zástup v době dovolené</h3>
+                                    <p className="text-xs text-orange-800 font-medium">V případě naší nepřítomnosti zastupuje:</p>
                                 </div>
                             </div>
-                        )}
+
+                            {substituteText && (
+                                <div className="p-6 rounded-2xl bg-white border border-orange-200/80 text-slate-900 space-y-3 shadow-xs h-full flex flex-col justify-center">
+                                    <div className="text-lg font-bold text-orange-950 whitespace-pre-line leading-relaxed border-l-4 border-orange-500 pl-4 py-1">
+                                        {substituteText}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="pt-4 border-t border-orange-200/60 text-xs text-orange-900 font-medium">
+                            * Před návštěvou zastupující ordinace prosím nejprve zavolejte na uvedené telefonní číslo.
+                        </div>
                     </div>
 
                 </div>
