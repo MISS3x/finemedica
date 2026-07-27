@@ -1,0 +1,132 @@
+{
+  "noticeBoard": {
+    "show": true,
+    "title": "Aktuální informace",
+    "alertTitle": "Plánovaná dovolená",
+    "alertText": "Ve dnech 20.2. - 25.2. neordinujeme.",
+    "substituteText": "V případě dovolené zastupuje:\nMUDr. Eva Klusáčková\nInstitut komplexní péče, spol. s r.o\nFranzova 43, 614 00 Brno - Maloměřice\nFiremní telefon: +420 732 892 607",
+    "operatingStatus": "Ordinace v provozu",
+    "customInfoActive": true,
+    "customInfoTitle": "Očkování proti chřipce",
+    "customInfoText": "Od září zahajujeme očkování proti chřipce. Vakcíny jsou pro seniory nad 65 let zdarma.",
+    "vacations": []
+  },
+  "priceList": [
+    {
+      "name": "Výpis z dokumentace na standardním formuláři do 10 dnů",
+      "price": "400"
+    },
+    {
+      "name": "Výpis z dokumentace expres (na počkání) nebo na vlastním formuláři",
+      "price": "800"
+    },
+    {
+      "name": "Pracovnělékařská prohlídka do zaměstnání (pouze bez rizik. faktorů a bez profesních rizik)",
+      "price": "700"
+    },
+    {
+      "name": "Lékařská prohlídka na řidičský průkaz – vystavení",
+      "price": "500"
+    },
+    {
+      "name": "Lékařská prohlídka na řidičský průkaz – prodloužení (u seniorů nad 65 let)",
+      "price": "400"
+    },
+    {
+      "name": "Lékařská prohlídka na zbrojní průkaz",
+      "price": "700"
+    },
+    {
+      "name": "Vyhotovení kopie zdravotní dokumentace",
+      "price": "10"
+    },
+    {
+      "name": "Vypsání tiskopisu pro komerční pojišťovnu – jednoduchý formulář",
+      "price": "500"
+    },
+    {
+      "name": "Vypsání tiskopisu pro komerční pojišťovnu, policii, soudy – podrobný formulář",
+      "price": "800"
+    },
+    {
+      "name": "Předoperační vyšetření (bez EKG a laboratoře)",
+      "price": "800"
+    },
+    {
+      "name": "EKG",
+      "price": "250"
+    },
+    {
+      "name": "Prohlídka pro profesní průkazy",
+      "price": "700"
+    },
+    {
+      "name": "Výpis cizojazyčného dotazníku – pouze AJ",
+      "price": "1500"
+    },
+    {
+      "name": "Vyšetření stolice na OK na žádost pacienta",
+      "price": "400"
+    },
+    {
+      "name": "Administrativní úkon v osobním zájmu (á 15 min)",
+      "price": "200"
+    },
+    {
+      "name": "Odškodnění bolesti a ztížení spol. uplatnění (u prac. úrazů/20 min práce)",
+      "price": "500"
+    },
+    {
+      "name": "Žádost o životní pojistku, hypotéku apod. (jednoduchý formulář)",
+      "price": "500"
+    },
+    {
+      "name": "Žádost o umístění do ústavu soc. péče (DD, dům s PS)",
+      "price": "300"
+    },
+    {
+      "name": "Vyjádření o zdravotním stavu na vlastní žádost",
+      "price": "200"
+    },
+    {
+      "name": "Nepojištěný pacient – cílené vyšetření (20 min)",
+      "price": "500"
+    },
+    {
+      "name": "Aplikace vakcíny",
+      "price": "250"
+    },
+    {
+      "name": "Nepojištěný pacient – kontrolní vyšetření",
+      "price": "350"
+    },
+    {
+      "name": "Vypsání návrhu na lázně – samoplátce",
+      "price": "500"
+    },
+    {
+      "name": "Vyšetření a vydání posudku o zdrav. způsobilosti ke sportovní činnosti",
+      "price": "400"
+    },
+    {
+      "name": "Vyšetření a vydání posudku o zdrav. způsobilosti ke studiu",
+      "price": "300"
+    },
+    {
+      "name": "Jiné komplexní vyšetření nehrazené zdr. poj.",
+      "price": "700"
+    },
+    {
+      "name": "Odběr krve na vlastní žádost",
+      "price": "200"
+    },
+    {
+      "name": "Vypsání tiskopisu pro policii, soudy – jednoduchý formulář",
+      "price": "500"
+    },
+    {
+      "name": "xxx",
+      "price": "1000"
+    }
+  ]
+}

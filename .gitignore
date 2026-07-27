@@ -1,0 +1,9 @@
+node_modules
+.next
+.env*.local
+.env
+.vercel
+dev.log
+package.json.tmp
+*.tsbuildinfo
+.DS_Store
