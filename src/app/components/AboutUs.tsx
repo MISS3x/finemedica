@@ -101,18 +101,7 @@ export default function AboutUs() {
                                 />
                             </div>
 
-                            {/* Badge/Element */}
-                            <div className="absolute -top-6 -right-6 bg-white p-4 rounded-xl shadow-lg animate-bounce-slow hidden md:block">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-green-100 p-2 rounded-lg">
-                                        <Award className="text-green-600 w-6 h-6" />
-                                    </div>
-                                    <div>
-                                        <div className="text-xs text-slate-500 font-bold uppercase">Zkušenosti</div>
-                                        <div className="text-lg font-bold text-slate-900">20+ Let</div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
 
                         {/* Background blobs behind images */}
