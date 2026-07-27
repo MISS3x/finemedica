@@ -6,6 +6,7 @@
     "alertText": "Ve dnech 20.2. - 25.2. neordinujeme.",
     "substituteText": "V případě dovolené zastupuje:\nMUDr. Eva Klusáčková\nInstitut komplexní péče, spol. s r.o\nFranzova 43, 614 00 Brno - Maloměřice\nFiremní telefon: +420 732 892 607",
     "operatingStatus": "Ordinace v provozu",
+    "acceptingNewPatients": false,
     "customInfoActive": true,
     "customInfoTitle": "Očkování proti chřipce",
     "customInfoText": "Od září zahajujeme očkování proti chřipce. Vakcíny jsou pro seniory nad 65 let zdarma.",

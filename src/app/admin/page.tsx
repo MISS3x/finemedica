@@ -237,6 +237,19 @@ export default function AdminPage() {
 
                         <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-4">
                             <h3 className="font-bold text-lg text-slate-800">3. Obecné nastavení</h3>
+                            <div className="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                <input
+                                    type="checkbox"
+                                    id="accepting_patients"
+                                    checked={noticeData.acceptingNewPatients || false}
+                                    onChange={(e) => setNoticeData({ ...noticeData, acceptingNewPatients: e.target.checked })}
+                                    className="w-5 h-5 accent-blue-600 cursor-pointer"
+                                />
+                                <label htmlFor="accepting_patients" className="font-semibold text-slate-800 cursor-pointer">
+                                    Zobrazovat na webu odznak "Přijímáme nové pacienty"
+                                </label>
+                            </div>
+
                             <div>
                                 <label className="block text-sm font-medium mb-1">Hlavní nadpis nástěnky</label>
                                 <input
