@@ -101,9 +101,19 @@ export default function AboutUs() {
                                 {isExpanded ? <ChevronUp className="ml-2 w-4 h-4" /> : <ChevronDown className="ml-2 w-4 h-4" />}
                             </button>
 
-                            <Link href="#contact" className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 hover:underline text-sm">
+                            <a
+                                href="#contact"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const contactEl = document.getElementById("contact");
+                                    if (contactEl) {
+                                        contactEl.scrollIntoView({ behavior: "smooth" });
+                                    }
+                                }}
+                                className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 hover:underline text-sm cursor-pointer"
+                            >
                                 Objednat se do ordinace <ArrowRight className="ml-2 w-4 h-4" />
-                            </Link>
+                            </a>
                         </div>
                     </div>
 

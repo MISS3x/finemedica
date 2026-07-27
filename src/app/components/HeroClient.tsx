@@ -171,20 +171,34 @@ export default function HeroClient({ notice }: HeroClientProps) {
 
                         {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                            <Link
+                            <a
                                 href="#contact"
-                                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-full shadow-lg hover:bg-blue-700 hover:shadow-blue-500/30 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const contactEl = document.getElementById("contact");
+                                    if (contactEl) {
+                                        contactEl.scrollIntoView({ behavior: "smooth" });
+                                    }
+                                }}
+                                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-full shadow-lg hover:bg-blue-700 hover:shadow-blue-500/30 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 cursor-pointer"
                             >
                                 Objednat se
                                 <ArrowRight className="w-5 h-5 ml-2" />
-                            </Link>
-                            <Link
+                            </a>
+                            <a
                                 href="#services"
-                                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-700 transition-all duration-200 bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    const servicesEl = document.getElementById("services");
+                                    if (servicesEl) {
+                                        servicesEl.scrollIntoView({ behavior: "smooth" });
+                                    }
+                                }}
+                                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-700 transition-all duration-200 bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 cursor-pointer"
                             >
                                 <PlayCircle className="w-5 h-5 ml-2 mr-2" />
                                 Naše služby
-                            </Link>
+                            </a>
                         </div>
 
                         {/* Trust Indicators */}
