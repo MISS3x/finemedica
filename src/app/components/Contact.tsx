@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, Mail, MapPin, Phone, ExternalLink, Building2 } from "lucide-react";
-import Image from "next/image";
+import { Send, CheckCircle, Mail, MapPin, Phone, ExternalLink, Camera } from "lucide-react";
 import { sendEmailAction } from "../actions/sendEmail";
 
 export default function Contact() {
@@ -170,7 +169,7 @@ export default function Contact() {
                     </div>
                 </div>
 
-                {/* Map & Building Photo Block */}
+                {/* 2-Column Grid: Left Interactive Google Map, Right Interactive Google Street View */}
                 <div className="bg-white rounded-[2.5rem] p-6 md:p-8 shadow-xl border border-slate-200/80 space-y-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                         <div className="flex items-center gap-3">
@@ -178,7 +177,7 @@ export default function Contact() {
                                 <MapPin size={22} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold text-slate-900">Kde nás najdete na mapě</h3>
+                                <h3 className="text-xl font-bold text-slate-900">Mapa a pohled na budovu (Street View)</h3>
                                 <p className="text-sm text-slate-500">Špitálka 253/6, 602 00 Brno-Zábrdovice</p>
                             </div>
                         </div>
@@ -194,51 +193,56 @@ export default function Contact() {
                                 Google Mapy <ExternalLink size={13} />
                             </a>
                             <a
-                                href="https://mapy.cz/zakladni?q=Špitálka+253/6+Brno"
+                                href="https://www.google.com/maps/@49.1964062,16.6236415,204a,28.3y,237.53h,91t/data=!3m7!1e1!3m5!1sRbFbjE8HTWJSdVlsw1iCIw!2e0"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs hover:bg-slate-200 transition-colors"
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-50 text-amber-800 font-bold text-xs hover:bg-amber-100 transition-colors"
                             >
-                                Mapy.cz <ExternalLink size={13} />
+                                Google Street View <ExternalLink size={13} />
                             </a>
                         </div>
                     </div>
 
-                    {/* 2-Column Grid: Left Real Building Photo, Right Interactive Map */}
-                    <div className="grid lg:grid-cols-12 gap-6 items-stretch">
+                    <div className="grid lg:grid-cols-2 gap-6 items-stretch">
                         
-                        {/* Real Building Photo Card */}
-                        <div className="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-md border border-slate-200 min-h-[300px] flex flex-col justify-end group">
-                            <Image
-                                src="/images/building.jpg"
-                                alt="Budova ordinace FineMedica na Špitálce 6"
-                                fill
-                                className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent pointer-events-none" />
-                            <div className="relative z-10 p-5 text-white space-y-1">
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-600 text-white text-[11px] font-extrabold uppercase tracking-wider">
-                                    <Building2 size={12} /> Budova ordinace
-                                </div>
-                                <h4 className="font-bold text-lg text-white">Špitálka 253/6, Brno</h4>
-                                <p className="text-xs text-slate-200">
-                                    Snadný přístup a parkování přímo u budovy.
-                                </p>
+                        {/* LEFT COLUMN: Interactive Google Map */}
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">
+                                <MapPin size={14} className="text-blue-600" />
+                                1. Mapa lokality (Špitálka 6)
+                            </div>
+                            <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100">
+                                <iframe
+                                    title="Mapa ordinace FineMedica Brno"
+                                    src="https://maps.google.com/maps?q=%C5%A0pit%C3%A1lka%20253%2F6%2C%20602%2000%20Brno-Z%C3%A1brdovice&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen={false}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
                             </div>
                         </div>
 
-                        {/* Interactive Embedded Google Map */}
-                        <div className="lg:col-span-7 h-[350px] lg:h-auto rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100 min-h-[300px]">
-                            <iframe
-                                title="Mapa ordinace FineMedica Brno"
-                                src="https://maps.google.com/maps?q=%C5%A0pit%C3%A1lka%20253%2F6%2C%20602%2000%20Brno-Z%C3%A1brdovice&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0 }}
-                                allowFullScreen={false}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
+                        {/* RIGHT COLUMN: Interactive Embedded Google Street View */}
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">
+                                <Camera size={14} className="text-amber-600" />
+                                2. Street View pohled na budovu
+                            </div>
+                            <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100">
+                                <iframe
+                                    title="Google Street View budovy ordinace FineMedica"
+                                    src="https://www.google.com/maps/embed?pb=!1m0!3m2!1scs!2scz!6m8!1m7!1sRbFbjE8HTWJSdVlsw1iCIw!2m2!1d49.1964062!2d16.6236415!3f237.53!4f-0.99!5f0.7820865974627469"
+                                    width="100%"
+                                    height="100%"
+                                    style={{ border: 0 }}
+                                    allowFullScreen={true}
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            </div>
                         </div>
 
                     </div>
