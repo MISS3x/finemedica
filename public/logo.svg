@@ -1,26 +1,32 @@
 <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <style>
+            /* Authentic double-beat heartbeat animation: 2x quick pulse (tu-tu) + short pause */
             @keyframes heartbeat {
-                0% { transform: translate(250px, 248px) scale(2.4); }
-                14% { transform: translate(250px, 248px) scale(2.9); }
-                28% { transform: translate(250px, 248px) scale(2.4); }
-                42% { transform: translate(250px, 248px) scale(2.75); }
-                70% { transform: translate(250px, 248px) scale(2.4); }
-                100% { transform: translate(250px, 248px) scale(2.4); }
+                0% { transform: translate(250px, 248px) scale(2.2); }
+                10% { transform: translate(250px, 248px) scale(2.85); }
+                20% { transform: translate(250px, 248px) scale(2.25); }
+                30% { transform: translate(250px, 248px) scale(2.7); }
+                42% { transform: translate(250px, 248px) scale(2.2); }
+                100% { transform: translate(250px, 248px) scale(2.2); }
             }
+
             @keyframes pulse-ring {
-                0% { r: 45px; opacity: 0.8; }
-                80% { r: 85px; opacity: 0; }
-                100% { r: 85px; opacity: 0; }
+                0% { r: 42px; opacity: 0; }
+                10% { r: 55px; opacity: 0.7; }
+                20% { r: 50px; opacity: 0.3; }
+                30% { r: 75px; opacity: 0.8; }
+                55% { r: 95px; opacity: 0; }
+                100% { r: 95px; opacity: 0; }
             }
+
             .heart-node {
-                animation: heartbeat 1.5s infinite ease-in-out;
+                animation: heartbeat 2s infinite ease-in-out;
                 transform-box: fill-box;
                 transform-origin: center;
             }
             .heart-ring {
-                animation: pulse-ring 2.2s infinite ease-out;
+                animation: pulse-ring 2s infinite ease-out;
                 transform-origin: 250px 250px;
             }
         </style>
@@ -31,7 +37,7 @@
         </linearGradient>
 
         <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="6" result="blur" />
+            <feGaussianBlur stdDeviation="5" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
         </filter>
     </defs>
@@ -55,7 +61,7 @@
 
     <!-- Nodes & Heart -->
     <g stroke="none">
-        <!-- Heart Pulse Ring -->
+        <!-- Heart Pulse Ring (synchronized with heartbeat) -->
         <circle cx="250" cy="250" r="55" fill="#E11D48" class="heart-ring" opacity="0.4" />
 
         <!-- Surrounding Nodes (smooth breathing animation) -->
@@ -91,7 +97,7 @@
             <animate attributeName="r" values="24; 29; 24" dur="2.7s" begin="-1.3s" repeatCount="indefinite" calcMode="spline" keyTimes="0; 0.5; 1" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1" />
         </circle>
 
-        <!-- Central Red Node IS the Heart itself -->
+        <!-- Central Heart Node with Double Heartbeat Pulse -->
         <g class="heart-node" filter="url(#glow)">
             <path
                 d="M 0 16 C -1.5 14.5 -22 5 -22 -10 C -22 -21 -12 -27 0 -15 C 12 -27 22 -21 22 -10 C 22 5 1.5 14.5 0 16 Z"
