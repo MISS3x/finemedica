@@ -33,7 +33,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
     const [progress, setProgress] = useState(0);
 
     // Embla carousel for 2 slides with smooth looping
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, speed: 12 });
+    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
 
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
