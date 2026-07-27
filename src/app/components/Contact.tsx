@@ -209,7 +209,7 @@ export default function Contact() {
                         <div className="space-y-3">
                             <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500 pl-1">
                                 <MapPin size={14} className="text-blue-600" />
-                                1. Mapa lokality (Špitálka 6)
+                                1. Mapa lokality (Špitálka 6, vedle Teplárny Brno)
                             </div>
                             <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100">
                                 <iframe
