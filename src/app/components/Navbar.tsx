@@ -34,8 +34,8 @@ export default function Navbar() {
             )}
         >
             <div className="container flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2 group">
-                    {/* Logo Text - Matching the modern, thin aesthetic */}
+                <Link href="/" className="flex items-center gap-3 group">
+                    <img src="/logo.svg" alt="FineMedica Logo" className="w-9 h-9 shrink-0 group-hover:scale-105 transition-transform" />
                     <span className="text-2xl tracking-tighter font-semibold text-slate-900">
                         Fine<span className="text-blue-600">Medica</span>
                     </span>

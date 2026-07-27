@@ -6,9 +6,12 @@ export default function Footer() {
             <div className="container">
                 <div className="grid md:grid-cols-4 gap-12 mb-16">
                     <div className="col-span-1 md:col-span-2 space-y-6">
-                        <span className="text-3xl font-bold tracking-tighter text-white block">
-                            Fine<span className="text-blue-500">Medica</span>
-                        </span>
+                        <div className="flex items-center gap-3">
+                            <img src="/logo.svg" alt="FineMedica Logo" className="w-10 h-10 shrink-0" />
+                            <span className="text-3xl font-bold tracking-tighter text-white block">
+                                Fine<span className="text-blue-500">Medica</span>
+                            </span>
+                        </div>
                         <p className="max-w-sm text-lg leading-relaxed text-slate-400">
                             Moderní ordinace praktického lékaře pro dospělé.
                             Spojujeme odbornost s moderními technologiemi pro vaše zdraví.
