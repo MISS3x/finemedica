@@ -311,8 +311,11 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                                                 Dnes
                                                             </span>
                                                         )}
-                                                        {!isToday && item.info && (
-                                                            <span className="text-xs font-medium text-slate-400 hidden sm:inline">
+                                                        {item.info && (
+                                                            <span className={cn(
+                                                                "text-xs font-medium hidden sm:inline ml-1",
+                                                                isToday ? "text-blue-100" : "text-slate-400"
+                                                            )}>
                                                                 {item.info}
                                                             </span>
                                                         )}
@@ -339,43 +342,43 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     </div>
                                 </div>
 
-                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP */}
+                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP (1:1 Layout & Typography like Slide 1) */}
                                 <div className={cn(
                                     "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
                                     selectedIndex === 1 ? "opacity-100" : "opacity-30"
                                 )}>
-                                    <div className="flex items-center justify-between border-b border-orange-500/30 pb-2">
-                                        <h4 className="font-bold text-base text-orange-400 flex items-center gap-2">
-                                            <ShieldAlert size={18} className="text-orange-500" />
-                                            DOVOLENÁ 2026
-                                        </h4>
-                                        <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30">
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-xs text-orange-300 font-medium">Plánované termíny dovolených</p>
+                                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shrink-0 bg-orange-500/20 text-orange-300 border border-orange-500/30">
                                             Informace & Zástup
                                         </span>
                                     </div>
 
-                                    {/* Vacations List */}
+                                    {/* Vacations List (1:1 Styling like Slide 1 rows) */}
                                     <div className="space-y-2">
                                         {vacations.map((vac: any, idx: number) => (
                                             <div
                                                 key={idx}
-                                                className="p-3 rounded-xl bg-orange-950/40 border border-orange-500/30 flex items-center justify-between gap-2"
+                                                className="flex items-center justify-between p-3.5 rounded-xl bg-orange-950/50 border border-orange-500/30 text-orange-100 hover:bg-orange-950/70 transition-all"
                                             >
-                                                <span className="font-bold text-orange-100 text-xs sm:text-sm">{vac.title}</span>
-                                                <span className="font-bold text-xs bg-orange-600 text-white px-2.5 py-1 rounded-md shrink-0 shadow-xs">
+                                                <div className="flex items-center gap-2">
+                                                    <ShieldAlert size={18} className="text-orange-400 shrink-0" />
+                                                    <span className="font-bold text-base text-orange-100">{vac.title}</span>
+                                                </div>
+                                                <span className="font-mono font-bold tracking-wide text-base bg-orange-600 text-white px-3 py-1 rounded-lg shadow-xs">
                                                     {formatDateRange(vac)}
                                                 </span>
                                             </div>
                                         ))}
                                     </div>
 
-                                    {/* Substitute Info */}
+                                    {/* Substitute Info (1:1 Prominent Styling) */}
                                     {substituteText && (
-                                        <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-950/80 to-orange-950/80 border border-orange-500/40 space-y-1.5 shadow-lg">
+                                        <div className="p-4 rounded-xl bg-gradient-to-br from-amber-950/90 to-orange-950/90 border border-orange-500/40 space-y-2 shadow-lg">
                                             <div className="font-bold text-xs uppercase tracking-wider text-orange-300 flex items-center gap-1.5">
-                                                <User size={15} className="text-orange-400" /> V případě dovolené zastupuje:
+                                                <User size={16} className="text-orange-400" /> V případě dovolené zastupuje:
                                             </div>
-                                            <div className="text-xs text-orange-50 font-bold whitespace-pre-line leading-relaxed pl-3 border-l-4 border-orange-500">
+                                            <div className="text-sm font-bold text-orange-50 whitespace-pre-line leading-relaxed pl-3 border-l-4 border-orange-500">
                                                 {substituteText}
                                             </div>
                                         </div>
