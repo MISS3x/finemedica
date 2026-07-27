@@ -127,18 +127,18 @@ export default function Hours({ notice }: HoursProps) {
                     </div>
                 </div>
 
-                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP (Sleek Clean Blue Design) */}
+                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP (Warm Rich Orange Palette) */}
                 <div className="grid lg:grid-cols-2 gap-8 items-start">
 
                     {/* BLOK DOVOLENÁ 2026 */}
-                    <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-md space-y-6">
-                        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 flex items-center justify-center font-bold shrink-0">
+                    <div className="bg-orange-50/60 rounded-[2rem] p-8 border border-orange-200/80 shadow-md space-y-6">
+                        <div className="flex items-center gap-3 border-b border-orange-200 pb-4">
+                            <div className="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-orange-600/30">
                                 <Calendar size={24} />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-slate-900">DOVOLENÁ 2026</h3>
-                                <p className="text-xs text-slate-500 font-medium">Plánované termíny dovolených a úpravy provozu</p>
+                                <h3 className="text-2xl font-bold text-orange-950">DOVOLENÁ 2026</h3>
+                                <p className="text-xs text-orange-800 font-medium">Plánované termíny dovolených a úpravy provozu</p>
                             </div>
                         </div>
 
@@ -146,13 +146,13 @@ export default function Hours({ notice }: HoursProps) {
                             {vacations.map((vac: any, idx: number) => (
                                 <div
                                     key={idx}
-                                    className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                                    className="p-4 rounded-xl bg-white border border-orange-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs"
                                 >
                                     <div className="flex items-center gap-2">
-                                        <ShieldAlert size={18} className="text-blue-600 shrink-0" />
+                                        <ShieldAlert size={18} className="text-orange-600 shrink-0" />
                                         <span className="font-bold text-slate-900 text-base">{vac.title}</span>
                                     </div>
-                                    <span className="font-bold text-sm bg-blue-100/80 text-blue-900 px-3 py-1 rounded-lg border border-blue-200 text-right shadow-xs">
+                                    <span className="font-bold text-sm bg-orange-600 text-white px-3 py-1 rounded-lg text-right shadow-xs">
                                         {formatDateRange(vac)}
                                     </span>
                                 </div>
@@ -161,20 +161,20 @@ export default function Hours({ notice }: HoursProps) {
                     </div>
 
                     {/* BLOK ZÁSTUP V DOBĚ DOVOLENÉ */}
-                    <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-md space-y-6">
-                        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-700 border border-blue-100 flex items-center justify-center font-bold shrink-0">
+                    <div className="bg-orange-50/60 rounded-[2rem] p-8 border border-orange-200/80 shadow-md space-y-6">
+                        <div className="flex items-center gap-3 border-b border-orange-200 pb-4">
+                            <div className="w-12 h-12 rounded-2xl bg-orange-600 text-white flex items-center justify-center font-bold shrink-0 shadow-md shadow-orange-600/30">
                                 <User size={24} />
                             </div>
                             <div>
-                                <h3 className="text-2xl font-bold text-slate-900">Zástup v době dovolené</h3>
-                                <p className="text-xs text-slate-500 font-medium">V případě naší nepřítomnosti zastupuje:</p>
+                                <h3 className="text-2xl font-bold text-orange-950">Zástup v době dovolené</h3>
+                                <p className="text-xs text-orange-800 font-medium">V případě naší nepřítomnosti zastupuje:</p>
                             </div>
                         </div>
 
                         {substituteText && (
-                            <div className="p-6 rounded-2xl bg-blue-50/50 border border-blue-100 text-slate-900 space-y-2">
-                                <div className="text-lg font-bold text-blue-950 whitespace-pre-line leading-relaxed border-l-4 border-blue-600 pl-4 py-1">
+                            <div className="p-6 rounded-2xl bg-white border border-orange-200/80 text-slate-900 space-y-2 shadow-xs">
+                                <div className="text-lg font-bold text-orange-950 whitespace-pre-line leading-relaxed border-l-4 border-orange-500 pl-4 py-1">
                                     {substituteText}
                                 </div>
                             </div>

@@ -27,7 +27,7 @@ const hoursData: Record<number, { open: string; close: string }> = {
 };
 
 export default function HeroClient({ notice }: HeroClientProps) {
-    const [status, setStatus] = useState<"OPEN" | "CLOSING_SOON" | "CLOSED">("CLOSED");
+    const [status, setStatus] = useState<"OPEN" | "CLOSING_SOON" | "AFTER_HOURS" | "CLOSED">("CLOSED");
     const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
     const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -70,6 +70,8 @@ export default function HeroClient({ notice }: HeroClientProps) {
                 setStatus("OPEN");
             } else if (currentTime >= closeTime - 30 && currentTime < closeTime) {
                 setStatus("CLOSING_SOON");
+            } else if (currentTime >= closeTime) {
+                setStatus("AFTER_HOURS");
             } else {
                 setStatus("CLOSED");
             }
@@ -169,7 +171,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         </div>
                     </div>
 
-                    {/* Right Column: Interactive 2-Slide Hero Container (Page 1: Hours 1:1, Page 2: Vacations & Substitute) */}
+                    {/* Right Column: Interactive 2-Slide Hero Container */}
                     <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden">
                         
                         {/* Header with 2-Page Tabs & Controls */}
@@ -180,7 +182,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     className={cn(
                                         "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
                                         selectedIndex === 0
-                                            ? "bg-blue-600 text-white shadow-md"
+                                            ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
                                             : "text-slate-400 hover:text-white"
                                     )}
                                 >
@@ -192,8 +194,8 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     className={cn(
                                         "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
                                         selectedIndex === 1
-                                            ? "bg-blue-600 text-white shadow-md"
-                                            : "text-slate-400 hover:text-white"
+                                            ? "bg-orange-600 text-white shadow-md shadow-orange-600/30"
+                                            : "text-slate-400 hover:text-orange-300"
                                     )}
                                 >
                                     <Calendar size={16} />
@@ -232,11 +234,12 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                             "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shrink-0",
                                             status === "OPEN" && "bg-green-500/20 text-green-300 border border-green-500/30",
                                             status === "CLOSING_SOON" && "bg-orange-500/20 text-orange-300 border border-orange-500/30",
-                                            status === "CLOSED" && "bg-slate-800 text-slate-400 border border-slate-700"
+                                            (status === "AFTER_HOURS" || status === "CLOSED") && "bg-slate-800 text-slate-400 border border-slate-700"
                                         )}>
                                             {status === "OPEN" && "• Dnes Otevřeno"}
                                             {status === "CLOSING_SOON" && "• Za chvíli zavíráme"}
-                                            {status === "CLOSED" && "• Dnes Zavřeno"}
+                                            {status === "AFTER_HOURS" && "• Dnes již zavřeno"}
+                                            {status === "CLOSED" && "• Dnes zavřeno"}
                                         </span>
                                     </div>
 
@@ -289,38 +292,40 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     </div>
                                 </div>
 
-                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP */}
+                                {/* SLIDE 2: DOVOLENÁ 2026 & ZÁSTUP (Warm Orange Palette) */}
                                 <div className="flex-[0_0_100%] min-w-0 space-y-4">
-                                    <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                                        <h4 className="font-bold text-base text-white flex items-center gap-2">
-                                            <ShieldAlert size={18} className="text-blue-400" />
+                                    <div className="flex items-center justify-between border-b border-orange-500/30 pb-2">
+                                        <h4 className="font-bold text-base text-orange-400 flex items-center gap-2">
+                                            <ShieldAlert size={18} className="text-orange-500" />
                                             DOVOLENÁ 2026
                                         </h4>
-                                        <span className="text-xs text-slate-400">Plánované termíny</span>
+                                        <span className="text-xs font-bold px-2.5 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30">
+                                            Informace & Zástup
+                                        </span>
                                     </div>
 
-                                    {/* Vacations List */}
+                                    {/* Vacations List in Orange Tone */}
                                     <div className="space-y-2">
                                         {vacations.map((vac: any, idx: number) => (
                                             <div
                                                 key={idx}
-                                                className="p-3 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between gap-2"
+                                                className="p-3 rounded-xl bg-orange-950/40 border border-orange-500/30 flex items-center justify-between gap-2"
                                             >
-                                                <span className="font-bold text-slate-100 text-xs sm:text-sm">{vac.title}</span>
-                                                <span className="font-bold text-xs bg-blue-500/20 text-blue-300 px-2.5 py-1 rounded-md shrink-0 border border-blue-500/30">
+                                                <span className="font-bold text-orange-100 text-xs sm:text-sm">{vac.title}</span>
+                                                <span className="font-bold text-xs bg-orange-600 text-white px-2.5 py-1 rounded-md shrink-0 shadow-xs">
                                                     {formatDateRange(vac)}
                                                 </span>
                                             </div>
                                         ))}
                                     </div>
 
-                                    {/* Substitute Info */}
+                                    {/* Substitute Info in Warm Orange Tone */}
                                     {substituteText && (
-                                        <div className="p-4 rounded-2xl bg-blue-950/80 border border-blue-800/60 space-y-1.5">
-                                            <div className="font-bold text-xs uppercase tracking-wider text-blue-300 flex items-center gap-1.5">
-                                                <User size={15} className="text-blue-400" /> V případě dovolené zastupuje:
+                                        <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-950/80 to-orange-950/80 border border-orange-500/40 space-y-1.5 shadow-lg">
+                                            <div className="font-bold text-xs uppercase tracking-wider text-orange-300 flex items-center gap-1.5">
+                                                <User size={15} className="text-orange-400" /> V případě dovolené zastupuje:
                                             </div>
-                                            <div className="text-xs text-slate-100 font-bold whitespace-pre-line leading-relaxed pl-3 border-l-4 border-blue-500">
+                                            <div className="text-xs text-orange-50 font-bold whitespace-pre-line leading-relaxed pl-3 border-l-4 border-orange-500">
                                                 {substituteText}
                                             </div>
                                         </div>
