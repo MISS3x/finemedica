@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Phone, AlertCircle, User, MapPin } from "lucide-react";
+import { Clock, Phone, AlertCircle, User, Calendar, ShieldAlert } from "lucide-react";
 
 interface HoursProps {
     notice?: any;
@@ -18,23 +18,24 @@ export default function Hours({ notice }: HoursProps) {
     const vacations = notice?.vacations || [];
     const substituteText = notice?.substituteText;
 
-    const formatDateRange = (start?: string, end?: string) => {
-        if (!start) return "";
+    const formatDateRange = (vac: any) => {
+        if (vac.note) return vac.note;
+        if (!vac.startDate) return "";
         const formatDate = (dStr: string) => {
             const parts = dStr.split("-");
             if (parts.length === 3) {
-                return `${parseInt(parts[2], 10)}.${parseInt(parts[1], 10)}.`;
+                return `${parseInt(parts[2], 10)}. ${parseInt(parts[1], 10)}. ${parts[0]}`;
             }
             return dStr;
         };
-        if (!end || start === end) return formatDate(start);
-        return `${formatDate(start)} – ${formatDate(end)}`;
+        if (!vac.endDate || vac.startDate === vac.endDate) return formatDate(vac.startDate);
+        return `${formatDate(vac.startDate)} – ${formatDate(vac.endDate)}`;
     };
 
     return (
-        <section id="hours" className="py-24 bg-white">
+        <section id="hours" className="py-24 bg-slate-50">
             <div className="container space-y-12">
-                {/* Main Hours Card */}
+                {/* 1. Hlavní Ordinační Hodiny Card */}
                 <div className="bg-slate-900 rounded-[2.5rem] p-8 md:p-16 relative overflow-hidden text-white shadow-2xl">
                     {/* Decorative gradients */}
                     <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
@@ -99,55 +100,61 @@ export default function Hours({ notice }: HoursProps) {
                     </div>
                 </div>
 
-                {/* Dedicated Vacation & Substitute Information Block (Shows prominently during vacation / substitute) */}
-                {(substituteText || vacations.length > 0) && (
-                    <div className="bg-amber-50 border-2 border-amber-200 rounded-[2rem] p-8 md:p-12 shadow-lg text-amber-950 space-y-6">
-                        <div className="flex items-center gap-3 border-b border-amber-200 pb-4">
-                            <div className="w-12 h-12 rounded-2xl bg-amber-500 text-white flex items-center justify-center font-bold shrink-0 shadow-md">
+                {/* 2. Statické oddělené bloky: DOVOLENÁ 2026 a ZÁSTUP */}
+                <div className="grid lg:grid-cols-2 gap-8 items-start">
+
+                    {/* BLOK DOVOLENÁ 2026 */}
+                    <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-md space-y-6">
+                        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+                            <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center font-bold shrink-0">
+                                <Calendar size={24} />
+                            </div>
+                            <div>
+                                <h3 className="text-2xl font-bold text-slate-900">DOVOLENÁ 2026</h3>
+                                <p className="text-xs text-slate-500 font-medium">Plánované termíny dovolených a úpravy provozu</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            {vacations.map((vac: any, idx: number) => (
+                                <div
+                                    key={idx}
+                                    className="p-4 rounded-xl bg-amber-50/70 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2"
+                                >
+                                    <div className="flex items-center gap-2">
+                                        <ShieldAlert size={18} className="text-amber-600 shrink-0" />
+                                        <span className="font-bold text-slate-900 text-base">{vac.title}</span>
+                                    </div>
+                                    <span className="font-bold text-sm bg-white px-3 py-1 rounded-lg border border-amber-300 text-amber-900 text-right shadow-xs">
+                                        {formatDateRange(vac)}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* BLOK ZÁSTUP V DOBĚ DOVOLENÉ */}
+                    <div className="bg-white rounded-[2rem] p-8 border border-slate-200 shadow-md space-y-6">
+                        <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+                            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-800 flex items-center justify-center font-bold shrink-0">
                                 <User size={24} />
                             </div>
                             <div>
-                                <h3 className="text-2xl md:text-3xl font-bold text-amber-950">Zástup v době dovolené</h3>
-                                <p className="text-sm text-amber-800 font-medium">Informace o zastupující ordinaci v době naší nepřítomnosti</p>
+                                <h3 className="text-2xl font-bold text-slate-900">Zástup v době dovolené</h3>
+                                <p className="text-xs text-slate-500 font-medium">V případě naší nepřítomnosti zastupuje:</p>
                             </div>
                         </div>
 
-                        <div className="grid lg:grid-cols-2 gap-8 items-start">
-                            {/* Substitute Contact Details */}
-                            {substituteText && (
-                                <div className="space-y-4 bg-white/80 p-6 rounded-2xl border border-amber-200/60 shadow-xs">
-                                    <h4 className="font-bold text-lg text-amber-900 flex items-center gap-2">
-                                        <User size={20} className="text-amber-600" />
-                                        Zastupující ordinace:
-                                    </h4>
-                                    <div className="text-base text-amber-950 font-medium whitespace-pre-line leading-relaxed pl-2 border-l-4 border-amber-500">
-                                        {substituteText}
-                                    </div>
+                        {substituteText && (
+                            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 space-y-2">
+                                <div className="text-lg font-bold text-blue-900 whitespace-pre-line leading-relaxed border-l-4 border-blue-600 pl-4 py-1">
+                                    {substituteText}
                                 </div>
-                            )}
-
-                            {/* Vacations List */}
-                            {vacations.length > 0 && (
-                                <div className="space-y-4 bg-white/80 p-6 rounded-2xl border border-amber-200/60 shadow-xs">
-                                    <h4 className="font-bold text-lg text-amber-900 flex items-center gap-2">
-                                        <Clock size={20} className="text-amber-600" />
-                                        Termíny plánovaných dovolených:
-                                    </h4>
-                                    <div className="space-y-3">
-                                        {vacations.map((vac: any, idx: number) => (
-                                            <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-amber-100/60 border border-amber-200 font-bold text-sm">
-                                                <span className="text-amber-950">{vac.title || "Dovolená"}</span>
-                                                <span className="bg-amber-900 text-white px-3 py-1 rounded-lg text-xs font-extrabold tracking-wide">
-                                                    {formatDateRange(vac.startDate, vac.endDate)}
-                                                </span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
+                            </div>
+                        )}
                     </div>
-                )}
+
+                </div>
             </div>
         </section>
     );

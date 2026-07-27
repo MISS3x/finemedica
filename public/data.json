@@ -1,15 +1,38 @@
 {
   "noticeBoard": {
     "show": true,
-    "title": "Aktuální informace",
-    "alertTitle": "Plánovaná dovolená",
-    "alertText": "Ve dnech 20.2. - 25.2. neordinujeme.",
-    "substituteText": "V případě dovolené zastupuje:\nMUDr. Eva Klusáčková\nInstitut komplexní péče, spol. s r.o\nFranzova 43, 614 00 Brno - Maloměřice\nFiremní telefon: +420 732 892 607",
+    "title": "Aktuální informace & Dovolené 2026",
+    "alertTitle": "Úprava ordinační doby",
+    "alertText": "Úterý 28. 7. 2026: Ordinujeme 11:00 – 15:00",
+    "substituteText": "MUDr. Eva Klusáčková\nInstitut komplexní péče, spol. s r.o\nFranzova 43, 614 00 Brno - Maloměřice\nFiremní telefon: +420 732 892 607",
     "operatingStatus": "Ordinace v provozu",
+    "acceptingNewPatients": false,
     "customInfoActive": true,
     "customInfoTitle": "Očkování proti chřipce",
     "customInfoText": "Od září zahajujeme očkování proti chřipce. Vakcíny jsou pro seniory nad 65 let zdarma.",
-    "vacations": []
+    "vacations": [
+      {
+        "title": "Úterý 28. 7. 2026",
+        "startDate": "2026-07-28",
+        "endDate": "2026-07-28",
+        "note": "Ordinujeme 11:00 – 15:00"
+      },
+      {
+        "title": "Letní dovolená",
+        "startDate": "2026-07-13",
+        "endDate": "2026-07-17"
+      },
+      {
+        "title": "Hlavní letní dovolená",
+        "startDate": "2026-08-10",
+        "endDate": "2026-08-21"
+      },
+      {
+        "title": "Zářijová dovolená",
+        "startDate": "2026-09-14",
+        "endDate": "2026-09-17"
+      }
+    ]
   },
   "priceList": [
     {
