@@ -1,10 +1,27 @@
 "use client";
 
-import { Shield, Activity, Clock, CheckCircle, Heart, User, Award, ArrowRight } from "lucide-react";
+import { Shield, Activity, Clock, Heart, User, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useState, useEffect } from "react";
+
+const aboutImages = [
+    { src: "/images/doctor_talking.png", alt: "Lékařka hovořící s pacientem" },
+    { src: "/images/medical_desk.png", alt: "Moderní diagnostické vybavení" },
+    { src: "/images/waiting_room.png", alt: "Příjemné prostředí ordinace" },
+];
 
 export default function AboutUs() {
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    // Smooth automatic image rotation every 5 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentImageIndex((prev) => (prev + 1) % aboutImages.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <section id="about" className="py-24 bg-white relative overflow-hidden">
             {/* Background Elements */}
@@ -73,39 +90,48 @@ export default function AboutUs() {
 
                         <div className="pt-6">
                             <Link href="#contact" className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 hover:underline">
-                                Poznejte náš tým <ArrowRight className="ml-2 w-4 h-4" />
+                                Objednat se do ordinace <ArrowRight className="ml-2 w-4 h-4" />
                             </Link>
                         </div>
                     </div>
 
-                    {/* Image Column - Composition of multiple images */}
-                    <div className="relative lg:h-[600px] flex items-center justify-center">
-                        <div className="relative w-full max-w-[500px] aspect-[4/5]">
-                            {/* Main Image */}
-                            <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-slate-200">
-                                <Image
-                                    src="/images/doctor_talking.png"
-                                    alt="Lékař hovořící s pacientem"
-                                    fill
-                                    className="object-cover"
-                                />
+                    {/* Image Column - Single Clean Frame with Slow Cross-Fade Animation */}
+                    <div className="relative lg:h-[550px] flex items-center justify-center">
+                        <div className="relative w-full max-w-[480px] aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-8 border-white bg-slate-900">
+                            {aboutImages.map((img, idx) => (
+                                <div
+                                    key={img.src}
+                                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                                        idx === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                                    }`}
+                                >
+                                    <Image
+                                        src={img.src}
+                                        alt={img.alt}
+                                        fill
+                                        className="object-cover"
+                                        priority={idx === 0}
+                                    />
+                                </div>
+                            ))}
+
+                            {/* Carousel Indicators / Dots */}
+                            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2 bg-slate-900/60 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
+                                {aboutImages.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setCurrentImageIndex(idx)}
+                                        className={`h-2 rounded-full transition-all duration-300 ${
+                                            idx === currentImageIndex ? "w-6 bg-white" : "w-2 bg-white/40 hover:bg-white/70"
+                                        }`}
+                                        aria-label={`Přejít na snímek ${idx + 1}`}
+                                    />
+                                ))}
                             </div>
-
-                            {/* Secondary Image - Floating */}
-                            <div className="absolute -bottom-10 -left-10 w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-slate-100 hidden md:block">
-                                <Image
-                                    src="/images/medical_desk.png"
-                                    alt="Moderní vybavení"
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-
-
                         </div>
 
-                        {/* Background blobs behind images */}
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] -z-10">
+                        {/* Background blobs behind main image */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] -z-10 pointer-events-none">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
                             <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
                         </div>
