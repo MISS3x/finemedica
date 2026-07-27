@@ -3,6 +3,7 @@
 import { Clock, Phone, AlertCircle, User, Calendar, ShieldAlert } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
+import PhoneModal from "./PhoneModal";
 
 interface HoursProps {
     notice?: any;
@@ -10,6 +11,7 @@ interface HoursProps {
 
 export default function Hours({ notice }: HoursProps) {
     const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
+    const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
 
     useEffect(() => {
         const now = new Date();
@@ -71,9 +73,12 @@ export default function Hours({ notice }: HoursProps) {
                                     <div>
                                         <h4 className="font-bold text-lg mb-1 text-white">Objednejte se telefonicky</h4>
                                         <p className="text-slate-300 text-sm mb-3">Volejte prosím v ordinačních hodinách.</p>
-                                        <a href="tel:+420545162070" className="text-2xl md:text-3xl font-bold text-blue-300 hover:text-white transition-colors tracking-wide">
+                                        <button
+                                            onClick={() => setIsPhoneModalOpen(true)}
+                                            className="text-2xl md:text-3xl font-bold text-blue-300 hover:text-white transition-colors tracking-wide text-left"
+                                        >
                                             +420 545 162 070
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -195,6 +200,9 @@ export default function Hours({ notice }: HoursProps) {
 
                 </div>
             </div>
+
+            {/* Senior-Friendly Phone Modal */}
+            <PhoneModal isOpen={isPhoneModalOpen} onClose={() => setIsPhoneModalOpen(false)} />
         </section>
     );
 }

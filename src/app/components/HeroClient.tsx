@@ -5,6 +5,7 @@ import { ArrowRight, PlayCircle, Clock, CheckCircle2, Phone, Mail, Calendar, Use
 import { useState, useEffect, useCallback } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { cn } from "@/lib/utils";
+import PhoneModal from "./PhoneModal";
 
 interface HeroClientProps {
     notice: any;
@@ -31,6 +32,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
     const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
     const [selectedIndex, setSelectedIndex] = useState(0);
     const [progress, setProgress] = useState(0);
+    const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
 
     // Embla carousel for 2 slides with smooth looping
     const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
@@ -233,9 +235,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     </button>
                                 </div>
 
-                                {/* Animated 10s Progress Bar:
-                                    - Left-to-Right from Blue to Orange when index 0
-                                    - Right-to-Left from Orange to Blue when index 1 */}
+                                {/* Animated 10s Progress Bar */}
                                 <div
                                     className={cn(
                                         "absolute bottom-0 h-1.5 rounded-full transition-all duration-75 ease-linear pointer-events-none shadow-md",
@@ -333,9 +333,12 @@ export default function HeroClient({ notice }: HeroClientProps) {
 
                                     {/* Quick Action Buttons */}
                                     <div className="grid grid-cols-2 gap-3 pt-2">
-                                        <a href="tel:+420545162070" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors text-sm shadow-md shadow-blue-600/30">
+                                        <button
+                                            onClick={() => setIsPhoneModalOpen(true)}
+                                            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors text-sm shadow-md shadow-blue-600/30"
+                                        >
                                             <Phone size={16} /> Zavolat
-                                        </a>
+                                        </button>
                                         <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
                                             <Mail size={16} /> Napsat
                                         </a>
@@ -391,6 +394,9 @@ export default function HeroClient({ notice }: HeroClientProps) {
                     </div>
                 </div>
             </div>
+
+            {/* Senior-Friendly Phone Modal */}
+            <PhoneModal isOpen={isPhoneModalOpen} onClose={() => setIsPhoneModalOpen(false)} />
         </section>
     );
 }
