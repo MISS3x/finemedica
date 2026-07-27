@@ -13,20 +13,20 @@ interface Service {
 const services: Service[] = [
     {
         icon: Stethoscope,
-        title: "Léčebná péče",
-        description: "Komplexní diagnostika a léčba běžných akutních i chronických onemocnění dospělých.",
-        items: ["Akutní stavy", "Chronická onemocnění", "Konzultace"]
+        title: "Léčebná & Ambulantní péče",
+        description: "Komplexní diagnostika, ambulantní ošetření a léčba akutních i chronických onemocnění.",
+        items: ["Ambulantní ošetření", "Akutní stavy", "Chronická onemocnění"]
     },
     {
         icon: Check,
         title: "Preventivní prohlídky",
-        description: "Pravidelné celkové prohlídky hrazené zdravotní pojišťovnou jednou za 2 roky.",
-        items: ["Laboratorní odběry", "EKG vyšetření", "Fyzikální vyšetření"]
+        description: "Pravidelné celkové prohlídky hrazené zdravotní pojišťovnou 1x za 2 roky.",
+        items: ["Laboratorní odběry", "Vyšetření EKG", "Fyzikální vyšetření"]
     },
     {
         icon: Syringe,
         title: "Očkování",
-        description: "Povinné i nepovinné očkování. Poradenství v oblasti cestovní medicíny.",
+        description: "Povinná i nepovinná očkování a poradenství v oblasti cestovní medicíny.",
         items: ["Tetanus", "Chřipka", "Klíšťová encefalitida"]
     },
     {
@@ -37,24 +37,27 @@ const services: Service[] = [
     },
     {
         icon: Car,
-        title: "Řidičské průkazy",
-        description: "Posuzování zdravotní způsobilosti k řízení motorových vozidel.",
-        items: ["Profesionální řidiči", "Senioři", "Prvožadatelé"]
-    },
-    {
-        icon: Factory,
-        title: "Potravinářské průkazy",
-        description: "Vystavení zdravotního průkazu pro práci v potravinářství.",
+        title: "Řidičské a zbrojní průkazy",
+        description: "Posuzování zdravotní způsobilosti k řízení vozidel, zbrojní a potravinářské průkazy.",
+        items: ["Řidičské průkazy", "Zbrojní průkazy", "Potravinářské průkazy"]
     },
     {
         icon: FileText,
+        title: "Posudky & Žádosti (DD / LDN)",
+        description: "Lékařské posudky a vypsání žádostí do domovů důchodců, ústavů soc. péče či LDN.",
+        items: ["Žádosti do DD a LDN", "Posudky způsobilosti", "Pojišťovací formuláře"]
+    },
+    {
+        icon: Factory,
         title: "Předoperační vyšetření",
-        description: "Kompletní interní předoperační vyšetření včetně EKG a laboratoře.",
+        description: "Kompletní interní předoperační vyšetření včetně EKG a odběrů krve.",
+        items: ["EKG vyšetření", "Laboratorní odběry", "Interní zhodnocení"]
     },
     {
         icon: Droplet,
-        title: "Diabetologie",
-        description: "Péče o nekomplikované diabetiky 2. typu, edukace a kontroly.",
+        title: "Diabetologie & Glukometr",
+        description: "Měření hladiny cukru v krvi glukoměrem, péče o diabetiky 2. typu a kontroly.",
+        items: ["Měření cukru (Glukometr)", "Diabetologie 2. typu", "Pravidelné kontroly"]
     }
 ];
 
