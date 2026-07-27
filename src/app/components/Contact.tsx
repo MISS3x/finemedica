@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, Mail, MapPin, Phone } from "lucide-react";
+import { Send, CheckCircle, Mail, MapPin, Phone, ExternalLink } from "lucide-react";
 import { sendEmailAction } from "../actions/sendEmail";
 
 export default function Contact() {
@@ -35,8 +35,9 @@ export default function Contact() {
 
     return (
         <section id="contact" className="py-24 bg-slate-50">
-            <div className="container">
+            <div className="container space-y-16">
                 <div className="grid lg:grid-cols-2 gap-16 items-start">
+                    {/* Left Column: Contact Info Cards */}
                     <div className="space-y-8">
                         <div>
                             <h2 className="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight mb-4">Kontaktujte nás</h2>
@@ -49,17 +50,19 @@ export default function Contact() {
                             {[
                                 { icon: <Phone size={24} />, title: "Telefon", value: "+420 545 162 070", desc: "Po–Pá v ordinačních hodinách", href: "tel:+420545162070" },
                                 { icon: <Mail size={24} />, title: "Email", value: "ordinace@finemedica.cz", desc: "odpovídáme do 24 hodin", href: "mailto:ordinace@finemedica.cz" },
-                                { icon: <MapPin size={24} />, title: "Adresa", value: "Špitálka 253/6", desc: "602 00 Brno-Zábrdovice", href: "#" },
+                                { icon: <MapPin size={24} />, title: "Adresa ordinace", value: "Špitálka 253/6", desc: "602 00 Brno-Zábrdovice", href: "https://maps.google.com/?q=Špitálka+253/6+Brno" },
                             ].map((item, i) => (
                                 <a
                                     key={i}
                                     href={item.href}
+                                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                                    rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
                                     className="flex items-start gap-4 p-6 bg-white border border-slate-100 rounded-2xl hover:border-blue-100 hover:shadow-lg hover:shadow-blue-900/5 transition-all group"
                                 >
                                     <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
                                         {item.icon}
                                     </div>
-                                    <div>
+                                    <div className="flex-1">
                                         <h3 className="font-bold text-slate-900">{item.title}</h3>
                                         <div className="text-lg font-medium text-slate-700 mt-1">{item.value}</div>
                                         <p className="text-sm text-slate-400 mt-1">{item.desc}</p>
@@ -69,6 +72,7 @@ export default function Contact() {
                         </div>
                     </div>
 
+                    {/* Right Column: Contact Form */}
                     <div className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-slate-200 border border-slate-100">
                         <div className="mb-8">
                             <h3 className="text-2xl font-bold text-slate-900">Napište nám zprávu</h3>
@@ -162,6 +166,55 @@ export default function Contact() {
                                 </button>
                             </form>
                         )}
+                    </div>
+                </div>
+
+                {/* Map Block directly under address & form */}
+                <div className="bg-white rounded-[2.5rem] p-6 md:p-8 shadow-xl border border-slate-200/80 space-y-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                                <MapPin size={22} />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-bold text-slate-900">Kde nás najdete na mapě</h3>
+                                <p className="text-sm text-slate-500">Špitálka 253/6, 602 00 Brno-Zábrdovice</p>
+                            </div>
+                        </div>
+
+                        {/* Navigation Links */}
+                        <div className="flex items-center gap-3">
+                            <a
+                                href="https://maps.google.com/?q=Špitálka+253/6+Brno"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-50 text-blue-700 font-bold text-xs hover:bg-blue-100 transition-colors"
+                            >
+                                Google Mapy <ExternalLink size={13} />
+                            </a>
+                            <a
+                                href="https://mapy.cz/zakladni?q=Špitálka+253/6+Brno"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-100 text-slate-800 font-bold text-xs hover:bg-slate-200 transition-colors"
+                            >
+                                Mapy.cz <ExternalLink size={13} />
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Interactive Embedded Google Map */}
+                    <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100">
+                        <iframe
+                            title="Mapa ordinace FineMedica Brno"
+                            src="https://maps.google.com/maps?q=%C5%A0pit%C3%A1lka%20253%2F6%2C%20602%2000%20Brno-Z%C3%A1brdovice&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                            width="100%"
+                            height="100%"
+                            style={{ border: 0 }}
+                            allowFullScreen={false}
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
                     </div>
                 </div>
             </div>
