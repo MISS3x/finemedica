@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone, X, Clock, CheckCircle2 } from "lucide-react";
+import { Phone, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface PhoneModalProps {
@@ -8,7 +8,7 @@ interface PhoneModalProps {
     onClose?: () => void;
 }
 
-function getDynamicCallStatus(): { statusBadge: string; timeInstruction: string; isOpenNow: boolean } {
+function getDynamicCallStatus(): { timeInstruction: string; isOpenNow: boolean } {
     const now = new Date();
     const day = now.getDay(); // 0 = Sun, 1 = Mon ...
     const hours = now.getHours();
@@ -29,7 +29,6 @@ function getDynamicCallStatus(): { statusBadge: string; timeInstruction: string;
         // Currently OPEN
         if (currentMinutes >= todaySchedule.openMin && currentMinutes < todaySchedule.closeMin) {
             return {
-                statusBadge: "• ORDINACE OTEVŘENA",
                 timeInstruction: `Dnes volejte do ${todaySchedule.closeStr}`,
                 isOpenNow: true,
             };
@@ -37,7 +36,6 @@ function getDynamicCallStatus(): { statusBadge: string; timeInstruction: string;
         // Early morning BEFORE opening
         if (currentMinutes < todaySchedule.openMin) {
             return {
-                statusBadge: "• ZATÍM ZAVŘENO",
                 timeInstruction: `Dnes volejte od ${todaySchedule.openStr} do ${todaySchedule.closeStr}`,
                 isOpenNow: false,
             };
@@ -49,7 +47,6 @@ function getDynamicCallStatus(): { statusBadge: string; timeInstruction: string;
         const nextDay = (day + 1) as keyof typeof schedule;
         const nextSchedule = schedule[nextDay];
         return {
-            statusBadge: "• DNES JIŽ ZAVŘENO",
             timeInstruction: `Volejte zítra od ${nextSchedule.openStr} do ${nextSchedule.closeStr}`,
             isOpenNow: false,
         };
@@ -57,7 +54,6 @@ function getDynamicCallStatus(): { statusBadge: string; timeInstruction: string;
 
     // Friday after 12:00 or Weekend (Sat/Sun) -> Next is Monday
     return {
-        statusBadge: "• VÍKEND / ZAVŘENO",
         timeInstruction: `Volejte v pondělí od 7:00 do 13:00`,
         isOpenNow: false,
     };
@@ -80,7 +76,7 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
         const handleGlobalClick = (e: MouseEvent) => {
             const target = (e.target as HTMLElement).closest("a[href^='tel:']");
             if (target) {
-                // If it's the direct trigger inside the modal, allow default call action or handle cleanly
+                // If it's the direct trigger inside the modal, allow default call action
                 if ((target as HTMLElement).getAttribute("data-modal-call") === "true") {
                     return;
                 }
@@ -116,92 +112,65 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
 
     if (!isVisible) return null;
 
-    const { statusBadge, timeInstruction, isOpenNow } = getDynamicCallStatus();
+    const { timeInstruction } = getDynamicCallStatus();
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200">
-            {/* Modal Box */}
+        <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-200"
+            onClick={handleClose}
+        >
+            {/* Dark Sleek Modal Box 1:1 matching user screenshot */}
             <div
-                className="relative w-full max-w-lg bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-2xl border-4 border-blue-500 text-center space-y-6 animate-in zoom-in-95 duration-200"
+                className="relative w-full max-w-xl bg-[#1c2230] rounded-[2rem] p-6 sm:p-10 shadow-2xl border border-slate-700/80 text-white space-y-6 animate-in zoom-in-95 duration-200"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Close Button */}
                 <button
                     onClick={handleClose}
-                    className="absolute top-4 right-4 w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors border border-slate-200"
+                    className="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors border border-slate-700"
                     aria-label="Zavřít okno"
                 >
-                    <X size={24} />
+                    <X size={20} />
                 </button>
 
-                {/* Big Phone Icon */}
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto shadow-lg shadow-green-600/20 border-2 border-green-200">
-                    <Phone size={40} className="animate-bounce" />
+                {/* Content Row matching user's screenshot 1:1 */}
+                <div className="flex items-start gap-5">
+                    {/* Left Round Blue Phone Icon */}
+                    <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/40 mt-1">
+                        <Phone size={28} />
+                    </div>
+
+                    {/* Text & Phone Details */}
+                    <div className="space-y-2 flex-1 pr-6">
+                        <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                            Objednejte se telefonicky
+                        </h3>
+
+                        {/* VELKÁ INSTRUKCE HODIN */}
+                        <p className="text-slate-300 font-semibold text-lg sm:text-xl">
+                            {timeInstruction}
+                        </p>
+
+                        {/* GIANT LIGHT BLUE PHONE NUMBER */}
+                        <a
+                            href="tel:+420545162070"
+                            data-modal-call="true"
+                            className="inline-block pt-3 text-3xl sm:text-5xl font-black text-[#75aaff] hover:text-white font-mono tracking-wider transition-colors"
+                        >
+                            +420 545 162 070
+                        </a>
+                    </div>
                 </div>
 
-                {/* Header & Senior Title */}
-                <div className="space-y-2">
-                    <span className={`text-xs uppercase font-extrabold px-3.5 py-1 rounded-full tracking-wider border ${
-                        isOpenNow 
-                            ? "bg-green-100 text-green-800 border-green-200" 
-                            : "bg-orange-100 text-orange-800 border-orange-200"
-                    }`}>
-                        {statusBadge}
-                    </span>
-                    <h3 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-                        Objednejte se telefonicky
-                    </h3>
-                    <p className="text-base font-bold text-blue-600">
-                        MUDr. Jana Petrušková & MUDr. Dagmar Rusková
-                    </p>
-                </div>
-
-                {/* DYNAMIC TIME INSTRUCTION (e.g. "Dnes volejte do 13:00" or "Volejte zítra od 11:00 do 18:00") */}
-                <div className="bg-blue-50/80 border-2 border-blue-200 p-4 rounded-2xl space-y-1">
-                    <p className="text-xs font-bold text-blue-800 uppercase tracking-wider">
-                        Ordinační doba pro telefonáty
-                    </p>
-                    <p className="text-xl sm:text-2xl font-black text-blue-950">
-                        {timeInstruction}
-                    </p>
-                </div>
-
-                {/* GIANT PHONE NUMBER DISPLAY FOR SENIORS */}
-                <div className="space-y-2">
-                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
-                        Telefonní číslo do ordinace
-                    </p>
+                {/* Mobile Call Button */}
+                <div className="pt-2 border-t border-slate-800">
                     <a
                         href="tel:+420545162070"
                         data-modal-call="true"
-                        className="block text-3xl sm:text-4xl font-black text-slate-900 font-mono tracking-wider bg-slate-100 py-5 px-4 rounded-2xl border-2 border-slate-200 hover:border-green-500 hover:bg-green-50 hover:text-green-700 transition-all shadow-inner"
+                        className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold text-lg shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                     >
-                        +420 545 162 070
+                        <Phone size={22} /> Vytočit číslo
                     </a>
-                </div>
-
-                {/* Call Action Button */}
-                <div className="space-y-3 pt-2">
-                    <a
-                        href="tel:+420545162070"
-                        data-modal-call="true"
-                        className="w-full py-4 sm:py-5 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-black text-lg sm:text-xl shadow-xl shadow-green-600/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.02]"
-                    >
-                        <Phone size={26} /> Vytočit číslo na telefonu
-                    </a>
-
-                    <button
-                        onClick={handleClose}
-                        className="w-full py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-sm transition-colors"
-                    >
-                        Zavřít okno
-                    </button>
-                </div>
-
-                {/* Address Note */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-center gap-2 text-xs font-semibold text-slate-500">
-                    <Clock size={14} className="text-blue-600 shrink-0" />
-                    <span>Špitálka 253/6, Brno-Zábrdovice</span>
                 </div>
             </div>
         </div>
