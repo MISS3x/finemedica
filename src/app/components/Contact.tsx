@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Send, CheckCircle, Mail, MapPin, Phone, ExternalLink } from "lucide-react";
+import { Send, CheckCircle, Mail, MapPin, Phone, ExternalLink, Building2 } from "lucide-react";
+import Image from "next/image";
 import { sendEmailAction } from "../actions/sendEmail";
 
 export default function Contact() {
@@ -169,7 +170,7 @@ export default function Contact() {
                     </div>
                 </div>
 
-                {/* Map Block directly under address & form */}
+                {/* Map & Building Photo Block */}
                 <div className="bg-white rounded-[2.5rem] p-6 md:p-8 shadow-xl border border-slate-200/80 space-y-6">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
                         <div className="flex items-center gap-3">
@@ -203,18 +204,43 @@ export default function Contact() {
                         </div>
                     </div>
 
-                    {/* Interactive Embedded Google Map */}
-                    <div className="w-full h-[400px] rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100">
-                        <iframe
-                            title="Mapa ordinace FineMedica Brno"
-                            src="https://maps.google.com/maps?q=%C5%A0pit%C3%A1lka%20253%2F6%2C%20602%2000%20Brno-Z%C3%A1brdovice&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            allowFullScreen={false}
-                            loading="lazy"
-                            referrerPolicy="no-referrer-when-downgrade"
-                        ></iframe>
+                    {/* 2-Column Grid: Left Real Building Photo, Right Interactive Map */}
+                    <div className="grid lg:grid-cols-12 gap-6 items-stretch">
+                        
+                        {/* Real Building Photo Card */}
+                        <div className="lg:col-span-5 relative rounded-2xl overflow-hidden shadow-md border border-slate-200 min-h-[300px] flex flex-col justify-end group">
+                            <Image
+                                src="/images/building.jpg"
+                                alt="Budova ordinace FineMedica na Špitálce 6"
+                                fill
+                                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent pointer-events-none" />
+                            <div className="relative z-10 p-5 text-white space-y-1">
+                                <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-blue-600 text-white text-[11px] font-extrabold uppercase tracking-wider">
+                                    <Building2 size={12} /> Budova ordinace
+                                </div>
+                                <h4 className="font-bold text-lg text-white">Špitálka 253/6, Brno</h4>
+                                <p className="text-xs text-slate-200">
+                                    Snadný přístup a parkování přímo u budovy.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Interactive Embedded Google Map */}
+                        <div className="lg:col-span-7 h-[350px] lg:h-auto rounded-2xl overflow-hidden shadow-inner border border-slate-200 bg-slate-100 min-h-[300px]">
+                            <iframe
+                                title="Mapa ordinace FineMedica Brno"
+                                src="https://maps.google.com/maps?q=%C5%A0pit%C3%A1lka%20253%2F6%2C%20602%2000%20Brno-Z%C3%A1brdovice&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen={false}
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            ></iframe>
+                        </div>
+
                     </div>
                 </div>
             </div>

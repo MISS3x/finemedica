@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 
 const aboutImages = [
     { src: "/images/doctor_talking.png", alt: "Lékařka hovořící s pacientem" },
+    { src: "/images/building.jpg", alt: "Budova ordinace na Špitálce 6, Brno" },
     { src: "/images/medical_desk.png", alt: "Moderní diagnostické vybavení" },
     { src: "/images/waiting_room.png", alt: "Příjemné prostředí ordinace" },
 ];
