@@ -38,7 +38,7 @@ export default async function Home() {
         <AboutUs />
         <Services />
         <Insurance />
-        <Hours />
+        <Hours notice={notice} />
         <Contact />
       </main>
       <Footer />
