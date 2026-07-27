@@ -31,19 +31,18 @@ export default function AboutUs() {
                 <div className="grid lg:grid-cols-2 gap-16 items-center">
                     {/* Content Column */}
                     <div className="space-y-8">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-wider">
+                        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-wider border border-blue-100">
                             <User size={14} />
-                            O nás
+                            MUDr. Jana Petrušková & MUDr. Dagmar Rusková
                         </div>
 
                         <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-                            Moderní medicína <br />
-                            <span className="text-blue-600">s lidskou tváří</span>
+                            Praktický lékař pro dospělé <br />
+                            <span className="text-blue-600">v Brně (FineMedica)</span>
                         </h2>
 
                         <p className="text-lg text-slate-600 leading-relaxed">
-                            V naší ordinaci kombinujeme nejnovější diagnostické postupy s tradičním rodinným přístupem.
-                            Věříme, že základem úspěšné léčby je vzájemná důvěra a otevřená komunikace.
+                            Ordinace praktických lékařek <strong className="text-slate-900 font-semibold">MUDr. Jany Petruškové</strong> a <strong className="text-slate-900 font-semibold">MUDr. Dagmar Ruskové</strong>. Spojujeme nejnovější diagnostické postupy s osobním a lidským přístupem.
                         </p>
 
                         <div className="grid sm:grid-cols-2 gap-6 pt-4">

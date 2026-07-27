@@ -12,9 +12,8 @@ export default function Footer() {
                                 Fine<span className="text-blue-500">Medica</span>
                             </span>
                         </div>
-                        <p className="max-w-sm text-lg leading-relaxed text-slate-400">
-                            Moderní ordinace praktického lékaře pro dospělé.
-                            Spojujeme odbornost s moderními technologiemi pro vaše zdraví.
+                        <p className="max-w-md text-base leading-relaxed text-slate-400">
+                            <strong>Praktický lékař pro dospělé v Brně</strong> – MUDr. Jana Petrušková & MUDr. Dagmar Rusková. Spojujeme odbornost s moderními technologiemi pro vaše zdraví.
                         </p>
                     </div>
 

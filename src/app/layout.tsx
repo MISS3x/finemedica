@@ -13,22 +13,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FineMedica | Praktický lékař Brno-Zábrdovice (ul. Špitálka)",
-  description: "Ordinace praktického lékaře v Brně na ul. Špitálka 6. Nabízíme kompletní diagnostickou a léčebnou péči, EKG, preventivní prohlídky, očkování i závodní péči.",
+  title: "MUDr. Jana Petrušková & MUDr. Dagmar Rusková | Praktický lékař pro dospělé v Brně",
+  description: "Ordinace praktického lékaře pro dospělé v Brně – MUDr. Jana Petrušková a MUDr. Dagmar Rusková. Kompletní péče, EKG, preventivní a závodní prohlídky, očkování. Špitálka 6, Brno.",
   keywords: [
+    "MUDr. Jana Petrušková",
+    "MUDr. Dagmar Rusková",
+    "Praktický lékař pro dospělé v Brně",
     "praktický lékař Brno",
     "praktik Brno Zábrdovice",
-    "ordinace Špitálka",
+    "obvodní lékař Brno",
+    "ordinace Špitálka Brno",
     "závodní péče Brno",
     "vyšetření EKG Brno",
     "preventivní prohlídky Brno",
-    "očkování Brno"
+    "očkování Brno",
+    "FineMedica"
   ],
-  authors: [{ name: "FineMedica s.r.o." }],
+  authors: [{ name: "FineMedica s.r.o. - MUDr. Jana Petrušková, MUDr. Dagmar Rusková" }],
   creator: "FineMedica",
   openGraph: {
-    title: "FineMedica | Praktický lékař Brno-Zábrdovice",
-    description: "Moderní ordinace praktického lékaře v Brně na ul. Špitálka. Léčebná a preventivní péče, EKG, závodní péče.",
+    title: "MUDr. Jana Petrušková & MUDr. Dagmar Rusková | Praktický lékař pro dospělé v Brně",
+    description: "Moderní ordinace praktického lékaře pro dospělé v Brně. MUDr. Jana Petrušková & MUDr. Dagmar Rusková. Špitálka 253/6, Brno.",
     url: "https://www.finemedica.cz",
     siteName: "FineMedica",
     locale: "cs_CZ",
@@ -43,11 +48,13 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "MedicalClinic",
-  "name": "FineMedica s.r.o.",
+  "name": "FineMedica s.r.o. - Praktický lékař pro dospělé v Brně",
+  "alternateName": "MUDr. Jana Petrušková a MUDr. Dagmar Rusková",
   "url": "https://www.finemedica.cz",
-  "logo": "https://www.finemedica.cz/logo.png",
+  "logo": "https://www.finemedica.cz/logo.svg",
   "telephone": "+420545162070",
   "email": "ordinace@finemedica.cz",
+  "medicalSpecialty": "PrimaryCare",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Špitálka 253/6",
@@ -60,7 +67,18 @@ const jsonLd = {
     "latitude": 49.19318,
     "longitude": 16.62061
   },
-  "medicalSpecialty": "PrimaryCare",
+  "physician": [
+    {
+      "@type": "IndividualPhysician",
+      "name": "MUDr. Jana Petrušková",
+      "jobTitle": "Praktický lékař pro dospělé"
+    },
+    {
+      "@type": "IndividualPhysician",
+      "name": "MUDr. Dagmar Rusková",
+      "jobTitle": "Praktický lékař pro dospělé"
+    }
+  ],
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",
