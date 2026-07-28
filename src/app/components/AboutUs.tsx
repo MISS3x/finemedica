@@ -43,8 +43,9 @@ export default function AboutUs() {
                             </span>
                         </h2>
 
-                        <p className="text-lg text-slate-600 leading-relaxed">
-                            Poskytujeme léčebně preventivní péči v oboru praktického lékařství pro dospělé, odběry biologického materiálu a aplikaci očkovacích látek v Brně.
+                        <p className="text-lg text-slate-600 leading-relaxed space-y-2">
+                            <span>Poskytujeme léčebně preventivní péči v oboru praktického lékařství pro dospělé, odběry biologického materiálu a aplikaci očkovacích látek v Brně.</span>{" "}
+                            <span>V naší ordinaci MUDr. Jany Petruškové a MUDr. Dagmar Rusková poskytujeme standardní léčebně-preventivní péči. Nabízíme léčbu akutních a chronických onemocnění a pravidelné preventivní prohlídky pro dospělé.</span>
                         </p>
 
                         <div className="grid sm:grid-cols-2 gap-6 pt-2">

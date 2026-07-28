@@ -117,9 +117,9 @@ export default function Services() {
                         <p className="text-slate-600 mb-4">
                             Hledáte jiný typ vyšetření? Kontaktujte nás pro individuální domluvu.
                         </p>
-                        <Link href="#contact" className="inline-flex items-center justify-center px-6 py-3 font-bold text-white transition-all duration-200 bg-slate-900 rounded-lg hover:bg-slate-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">
+                        <a href="tel:+420545162070" className="inline-flex items-center justify-center px-6 py-3 font-bold text-white transition-all duration-200 bg-slate-900 rounded-xl hover:bg-slate-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">
                             Zavolat do ordinace
-                        </Link>
+                        </a>
                     </div>
                 </div>
             </div>
