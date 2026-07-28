@@ -185,9 +185,19 @@ export default function Hours({ notice }: HoursProps) {
                             </div>
 
                             {substituteText && (
-                                <div className="p-6 rounded-2xl bg-white border border-orange-200/80 text-slate-900 space-y-3 shadow-xs h-full flex flex-col justify-center">
-                                    <div className="text-lg font-bold text-orange-950 whitespace-pre-line leading-relaxed border-l-4 border-orange-500 pl-4 py-1">
-                                        {substituteText}
+                                <div className="p-6 rounded-2xl bg-white border border-orange-200/80 text-slate-900 space-y-4 shadow-xs h-full flex flex-col justify-between">
+                                    <div className="text-lg font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-4 py-1 space-y-1">
+                                        <p className="text-xl font-extrabold text-orange-950">MUDr. Eva Klusáčková</p>
+                                        <p className="text-sm text-slate-600 font-medium">Institut komplexní péče, spol. s r.o.</p>
+                                        <p className="text-sm text-slate-600 font-medium">Franzova 43, 614 00 Brno - Maloměřice</p>
+                                    </div>
+                                    <div className="pt-2">
+                                        <a
+                                            href="tel:+420732892607"
+                                            className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-black text-base shadow-md shadow-orange-600/30 transition-all hover:scale-105"
+                                        >
+                                            <Phone size={18} /> Telefon: +420 732 892 607
+                                        </a>
                                     </div>
                                 </div>
                             )}

@@ -253,8 +253,19 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                 </div>
                             ) : (
                                 substituteText && (
-                                    <div className="text-sm font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-3.5 py-1 animate-in fade-in duration-300">
-                                        {substituteText}
+                                    <div className="text-sm font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-3.5 py-0.5 space-y-2 animate-in fade-in duration-300">
+                                        <div>
+                                            MUDr. Eva Klusáčková <br />
+                                            <span className="text-xs text-orange-900 font-medium">Institut komplexní péče, spol. s r.o. • Franzova 43, Brno</span>
+                                        </div>
+                                        <div>
+                                            <a
+                                                href="tel:+420732892607"
+                                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-black text-xs sm:text-sm shadow-md shadow-orange-600/30 transition-all hover:scale-105"
+                                            >
+                                                <Phone size={14} /> +420 732 892 607
+                                            </a>
+                                        </div>
                                     </div>
                                 )
                             )}
