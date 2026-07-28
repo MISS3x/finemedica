@@ -119,11 +119,11 @@ export default function HeroClient({ notice }: HeroClientProps) {
             </div>
 
             <div className="container relative z-10">
-                {/* items-stretch forces left and right columns to have equal container height */}
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+                {/* items-start prevents vertical resizing when left card toggles content */}
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
-                    {/* Left Column: Text, CTA & Tall Rotating Vacation/Substitute Card */}
-                    <div className="lg:col-span-6 text-center lg:text-left flex flex-col justify-between space-y-6">
+                    {/* Left Column: Text, CTA & Rock-Solid Fixed Height Vacation/Substitute Card */}
+                    <div className="lg:col-span-6 text-center lg:text-left space-y-6">
                         <div className="space-y-6">
                             {/* Optional Badge if accepting patients */}
                             {notice?.acceptingNewPatients && (
@@ -194,10 +194,10 @@ export default function HeroClient({ notice }: HeroClientProps) {
                             </div>
                         </div>
 
-                        {/* Left Bottom Auto-Rotating Card (Tall & Large Readable Fonts) */}
-                        <div className="relative p-5 sm:p-6 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-4 shadow-sm overflow-hidden animate-in fade-in duration-300 flex flex-col justify-between">
+                        {/* Left Bottom Auto-Rotating Card - STRICT FIXED HEIGHT h-[235px] */}
+                        <div className="relative p-5 sm:p-6 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left h-[235px] flex flex-col justify-between shadow-sm overflow-hidden animate-in fade-in duration-300">
                             {/* Card Header with Tab Indicators */}
-                            <div className="flex items-center justify-between border-b border-orange-200/80 pb-3">
+                            <div className="flex items-center justify-between border-b border-orange-200/80 pb-3 shrink-0">
                                 <div className="flex items-center gap-2 text-xs sm:text-sm font-black uppercase tracking-wider text-orange-950">
                                     {leftSlideIndex === 0 ? (
                                         <>
@@ -233,16 +233,16 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                 </div>
                             </div>
 
-                            {/* SLIDE CONTENT - TALL & LARGE FONTS */}
+                            {/* SLIDE CONTENT - PERFECTLY CENTERED IN FIXED HEIGHT */}
                             {leftSlideIndex === 0 ? (
-                                <div className="space-y-2.5 animate-in fade-in duration-300">
+                                <div className="space-y-2 flex-1 flex flex-col justify-center animate-in fade-in duration-300">
                                     {vacations.map((vac: any, idx: number) => (
                                         <div
                                             key={idx}
-                                            className="flex items-center gap-3 p-3.5 rounded-xl bg-white border border-orange-200/90 text-orange-950 shadow-2xs"
+                                            className="flex items-center gap-3 p-3 rounded-xl bg-white border border-orange-200/90 text-orange-950 shadow-2xs"
                                         >
-                                            <ShieldAlert size={20} className="text-orange-600 shrink-0" />
-                                            <span className="font-mono font-black text-orange-950 text-base sm:text-lg tracking-wide">
+                                            <ShieldAlert size={18} className="text-orange-600 shrink-0" />
+                                            <span className="font-mono font-black text-orange-950 text-sm sm:text-base tracking-wide">
                                                 {formatDateRange(vac)}
                                             </span>
                                         </div>
@@ -250,19 +250,19 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                 </div>
                             ) : (
                                 substituteText && (
-                                    <div className="text-sm sm:text-base font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-4 py-1 space-y-3 animate-in fade-in duration-300">
+                                    <div className="flex-1 flex flex-col justify-center text-sm sm:text-base font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-4 py-1 space-y-2.5 animate-in fade-in duration-300">
                                         <div className="space-y-1">
                                             <p className="text-xl sm:text-2xl font-black text-orange-950">MUDr. Eva Klusáčková</p>
-                                            <p className="text-sm sm:text-base font-semibold text-orange-900">
+                                            <p className="text-xs sm:text-sm font-semibold text-orange-900">
                                                 Institut komplexní péče, spol. s r.o. • Franzova 43, 614 00 Brno - Maloměřice
                                             </p>
                                         </div>
                                         <div>
                                             <a
                                                 href="tel:+420732892607"
-                                                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-sm sm:text-base shadow-md shadow-orange-600/30 transition-all hover:scale-105"
+                                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-xs sm:text-sm shadow-md shadow-orange-600/30 transition-all hover:scale-105"
                                             >
-                                                <Phone size={16} /> Firemní telefon: +420 732 892 607
+                                                <Phone size={15} /> Firemní telefon: +420 732 892 607
                                             </a>
                                         </div>
                                     </div>
@@ -277,8 +277,8 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         </div>
                     </div>
 
-                    {/* Right Column: Dedicated Exclusively to Ordinační hodiny */}
-                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden flex flex-col justify-between">
+                    {/* Right Column: Dedicated Exclusively to Ordinační hodiny (Fixed Size) */}
+                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden">
                         
                         {/* Header of Right Dark Container */}
                         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
@@ -293,7 +293,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                             </div>
 
                             <span className={cn(
-                                "px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shrink-0 border",
+                                "px-3.5 py-1.5 rounded-xl text-xs font-extrabold uppercase tracking-wider shrink-0 border",
                                 status === "OPEN" && "bg-green-500/20 text-green-300 border-green-500/30",
                                 status === "CLOSING_SOON" && "bg-orange-500/20 text-orange-300 border-orange-500/30",
                                 (status === "AFTER_HOURS" || status === "CLOSED") && "bg-slate-800 text-slate-400 border-slate-700"
@@ -350,11 +350,11 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800">
                             <button
                                 onClick={() => setIsPhoneModalOpen(true)}
-                                className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors text-sm shadow-md shadow-blue-600/30"
+                                className="flex items-center justify-center gap-2 h-12 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors text-sm shadow-md shadow-blue-600/30"
                             >
                                 <Phone size={16} /> Zavolat
                             </button>
-                            <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
+                            <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 h-12 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
                                 <Mail size={16} /> Napsat
                             </a>
                         </div>
