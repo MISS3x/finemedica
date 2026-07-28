@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight, PlayCircle, Clock, CheckCircle2, Phone, Mail, Calendar, User, ShieldAlert, ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
-import useEmblaCarousel from "embla-carousel-react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import PhoneModal from "./PhoneModal";
 
@@ -30,52 +29,31 @@ const hoursData: Record<number, { open: string; close: string }> = {
 export default function HeroClient({ notice }: HeroClientProps) {
     const [status, setStatus] = useState<"OPEN" | "CLOSING_SOON" | "AFTER_HOURS" | "CLOSED">("CLOSED");
     const [currentDayIndex, setCurrentDayIndex] = useState<number>(0);
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [progress, setProgress] = useState(0);
     const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
 
-    // Embla carousel for 2 slides with smooth looping
-    const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
+    // Left bottom card auto-rotator between Dovolené (0) and Zástup (1)
+    const [leftSlideIndex, setLeftSlideIndex] = useState(0);
+    const [leftProgress, setLeftProgress] = useState(0);
 
-    const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-    const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
-
-    const onSelect = useCallback(() => {
-        if (!emblaApi) return;
-        setSelectedIndex(emblaApi.selectedScrollSnap());
-    }, [emblaApi]);
-
+    // 8-second rotator for left bottom card
     useEffect(() => {
-        if (!emblaApi) return;
-        onSelect();
-        emblaApi.on("select", onSelect);
-    }, [emblaApi, onSelect]);
-
-    // 10-Second Auto Slider with Directional Animated Progress Line
-    useEffect(() => {
-        setProgress(0);
+        setLeftProgress(0);
         const startTime = Date.now();
-        const DURATION = 10000; // 10 seconds
+        const DURATION = 8000; // 8 seconds
 
         const interval = setInterval(() => {
             const elapsed = Date.now() - startTime;
             const p = Math.min(100, (elapsed / DURATION) * 100);
-            setProgress(p);
+            setLeftProgress(p);
 
             if (elapsed >= DURATION) {
                 clearInterval(interval);
-                if (emblaApi) {
-                    if (selectedIndex === 0) {
-                        emblaApi.scrollTo(1);
-                    } else {
-                        emblaApi.scrollTo(0);
-                    }
-                }
+                setLeftSlideIndex((prev) => (prev === 0 ? 1 : 0));
             }
         }, 30);
 
         return () => clearInterval(interval);
-    }, [selectedIndex, emblaApi]);
+    }, [leftSlideIndex]);
 
     // Calculate current operating status & today's index
     useEffect(() => {
@@ -126,8 +104,6 @@ export default function HeroClient({ notice }: HeroClientProps) {
         return `${formatDate(vac.startDate)} – ${formatDate(vac.endDate)}`;
     };
 
-    const todayHoursObj = hoursList.find((h) => h.dayIndex === currentDayIndex);
-
     return (
         <section id="home" className="relative pt-28 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-slate-50/50">
             {/* Extended Background with subtle texture */}
@@ -146,7 +122,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                 {/* items-stretch forces left and right columns to have equal container height */}
                 <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
 
-                    {/* Left Column: Text, CTA & Dynamic Bottom Info Card Aligned to Right Box */}
+                    {/* Left Column: Text, CTA & Rotating Vacation/Substitute Card */}
                     <div className="lg:col-span-6 text-center lg:text-left flex flex-col justify-between space-y-6">
                         <div className="space-y-6">
                             {/* Optional Badge if accepting patients */}
@@ -218,239 +194,159 @@ export default function HeroClient({ notice }: HeroClientProps) {
                             </div>
                         </div>
 
-                        {/* Bottom Info Card matching selected slide & aligned with right box bottom edge */}
-                        {selectedIndex === 0 ? (
-                            <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/90 border border-blue-200 text-left space-y-1.5 shadow-sm animate-in fade-in duration-300">
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-blue-900">
-                                        <Clock size={16} className="text-blue-600 shrink-0" />
-                                        <span>Ordinační doby pro dnešek</span>
-                                    </div>
-                                    <span className={cn(
-                                        "px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider border",
-                                        status === "OPEN" && "bg-green-100 text-green-800 border-green-200",
-                                        status === "CLOSING_SOON" && "bg-orange-100 text-orange-800 border-orange-200",
-                                        (status === "AFTER_HOURS" || status === "CLOSED") && "bg-slate-200 text-slate-700 border-slate-300"
-                                    )}>
-                                        {status === "OPEN" && "• Dnes Otevřeno"}
-                                        {status === "CLOSING_SOON" && "• Za chvíli zavíráme"}
-                                        {status === "AFTER_HOURS" && "• Dnes již zavřeno"}
-                                        {status === "CLOSED" && "• Dnes zavřeno"}
-                                    </span>
-                                </div>
-                                <div className="text-sm font-bold text-slate-900 leading-relaxed border-l-4 border-blue-500 pl-3">
-                                    {currentDayIndex >= 1 && currentDayIndex <= 5 ? (
-                                        <>Dnes ({todayHoursObj?.dayName}): <span className="font-mono text-blue-700 font-extrabold text-base">{todayHoursObj?.time}</span> {todayHoursObj?.info && <span className="text-xs text-slate-500 font-normal">({todayHoursObj?.info})</span>}</>
+                        {/* Left Bottom Auto-Rotating Card (Termíny dovolené <-> Zástup) */}
+                        <div className="relative p-5 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-3 shadow-sm overflow-hidden animate-in fade-in duration-300">
+                            {/* Card Header with Tab Indicators */}
+                            <div className="flex items-center justify-between border-b border-orange-200/80 pb-2.5">
+                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-orange-950">
+                                    {leftSlideIndex === 0 ? (
+                                        <>
+                                            <Calendar size={16} className="text-orange-600 shrink-0" />
+                                            <span>Plánované termíny dovolených 2026</span>
+                                        </>
                                     ) : (
-                                        <>Dnes je vírend. Rádi vás přivítáme v pondělí v ordinačních hodinách <span className="font-mono text-blue-700 font-extrabold">7:00 – 13:00</span>.</>
+                                        <>
+                                            <User size={16} className="text-orange-600 shrink-0" />
+                                            <span>Zástup v době dovolené</span>
+                                        </>
                                     )}
                                 </div>
+
+                                {/* Indicator Dots */}
+                                <div className="flex items-center gap-1.5">
+                                    <button
+                                        onClick={() => setLeftSlideIndex(0)}
+                                        className={cn(
+                                            "h-2 rounded-full transition-all duration-300",
+                                            leftSlideIndex === 0 ? "bg-orange-600 w-5" : "bg-orange-300 hover:bg-orange-400 w-2"
+                                        )}
+                                        aria-label="Zobrazit termíny dovolené"
+                                    />
+                                    <button
+                                        onClick={() => setLeftSlideIndex(1)}
+                                        className={cn(
+                                            "h-2 rounded-full transition-all duration-300",
+                                            leftSlideIndex === 1 ? "bg-orange-600 w-5" : "bg-orange-300 hover:bg-orange-400 w-2"
+                                        )}
+                                        aria-label="Zobrazit zástup"
+                                    />
+                                </div>
                             </div>
-                        ) : (
-                            substituteText && (
-                                <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-1.5 shadow-sm animate-in fade-in duration-300">
-                                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-orange-950">
-                                        <User size={16} className="text-orange-600 shrink-0" />
-                                        <span>V případě dovolené zastupuje:</span>
-                                    </div>
-                                    <div className="text-sm font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-3">
+
+                            {/* SLIDE CONTENT */}
+                            {leftSlideIndex === 0 ? (
+                                <div className="space-y-1.5 animate-in fade-in duration-300">
+                                    {vacations.map((vac: any, idx: number) => (
+                                        <div
+                                            key={idx}
+                                            className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-orange-200/80 text-orange-950 text-xs sm:text-sm font-semibold shadow-2xs"
+                                        >
+                                            <div className="flex items-center gap-2">
+                                                <ShieldAlert size={15} className="text-orange-600 shrink-0" />
+                                                <span>{vac.title}</span>
+                                            </div>
+                                            <span className="font-mono font-bold bg-orange-600 text-white px-2.5 py-0.5 rounded-md text-xs shrink-0 shadow-2xs">
+                                                {formatDateRange(vac)}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                substituteText && (
+                                    <div className="text-sm font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-3.5 py-1 animate-in fade-in duration-300">
                                         {substituteText}
                                     </div>
-                                </div>
-                            )
-                        )}
+                                )
+                            )}
+
+                            {/* Animated 8s Progress Line */}
+                            <div
+                                className="absolute bottom-0 left-0 h-1 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 transition-all duration-75 ease-linear pointer-events-none"
+                                style={{ width: `${leftProgress}%` }}
+                            />
+                        </div>
                     </div>
 
-                    {/* Right Column: Interactive 2-Slide Hero Container */}
+                    {/* Right Column: Dedicated Exclusively to Ordinační hodiny */}
                     <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden flex flex-col justify-between">
                         
-                        {/* Header with 2-Page Tabs & Controls */}
-                        <div className="flex items-center justify-between border-b border-slate-800 pb-4 relative z-10">
-                            
-                            {/* Tab Bar Container with Animated Directional Progress Line */}
-                            <div className="relative bg-slate-800/80 p-1.5 rounded-2xl border border-slate-700 overflow-hidden">
-                                <div className="flex relative z-10">
-                                    <button
-                                        onClick={() => emblaApi && emblaApi.scrollTo(0)}
-                                        className={cn(
-                                            "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
-                                            selectedIndex === 0
-                                                ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
-                                                : "text-slate-400 hover:text-white"
-                                        )}
-                                    >
-                                        <Clock size={16} />
-                                        Ordinační hodiny
-                                    </button>
-                                    <button
-                                        onClick={() => emblaApi && emblaApi.scrollTo(1)}
-                                        className={cn(
-                                            "flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all",
-                                            selectedIndex === 1
-                                                ? "bg-orange-600 text-white shadow-md shadow-orange-600/30"
-                                                : "text-slate-400 hover:text-orange-300"
-                                        )}
-                                    >
-                                        <Calendar size={16} />
-                                        Dovolená & Zástup
-                                    </button>
+                        {/* Header of Right Dark Container */}
+                        <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                            <div className="flex items-center gap-2.5">
+                                <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-md shadow-blue-600/30">
+                                    <Clock size={20} />
                                 </div>
-
-                                {/* Animated 10s Progress Bar */}
-                                <div
-                                    className={cn(
-                                        "absolute bottom-0 h-1.5 rounded-full transition-all duration-75 ease-linear pointer-events-none shadow-md",
-                                        selectedIndex === 0
-                                            ? "left-0 bg-gradient-to-r from-blue-500 via-indigo-500 to-orange-500 shadow-blue-500/50"
-                                            : "right-0 bg-gradient-to-l from-orange-500 via-amber-500 to-blue-500 shadow-orange-500/50"
-                                    )}
-                                    style={{ width: `${progress}%` }}
-                                />
+                                <div>
+                                    <h3 className="text-lg font-bold text-white leading-none">Ordinační hodiny</h3>
+                                    <p className="text-xs text-slate-400 mt-1">Špitálka 253/6, Brno-Zábrdovice</p>
+                                </div>
                             </div>
 
-                            {/* Arrow Controls */}
-                            <div className="flex gap-1 bg-slate-800 p-1 rounded-xl border border-slate-700">
-                                <button
-                                    onClick={scrollPrev}
-                                    className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-300 transition-colors"
-                                    aria-label="Předchozí"
-                                >
-                                    <ChevronLeft size={18} />
-                                </button>
-                                <button
-                                    onClick={scrollNext}
-                                    className="p-1.5 rounded-lg hover:bg-slate-700 text-slate-300 transition-colors"
-                                    aria-label="Následující"
-                                >
-                                    <ChevronRight size={18} />
-                                </button>
-                            </div>
+                            <span className={cn(
+                                "px-3.5 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider shrink-0 border",
+                                status === "OPEN" && "bg-green-500/20 text-green-300 border-green-500/30",
+                                status === "CLOSING_SOON" && "bg-orange-500/20 text-orange-300 border-orange-500/30",
+                                (status === "AFTER_HOURS" || status === "CLOSED") && "bg-slate-800 text-slate-400 border-slate-700"
+                            )}>
+                                {status === "OPEN" && "• Dnes Otevřeno"}
+                                {status === "CLOSING_SOON" && "• Za chvíli zavíráme"}
+                                {status === "AFTER_HOURS" && "• Dnes již zavřeno"}
+                                {status === "CLOSED" && "• Dnes zavřeno"}
+                            </span>
                         </div>
 
-                        {/* Carousel Viewport with Fade Transitions */}
-                        <div className="overflow-hidden relative z-10" ref={emblaRef}>
-                            <div className="flex touch-pan-y">
-
-                                {/* SLIDE 1: ORDINAČNÍ HODINY */}
-                                <div className={cn(
-                                    "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
-                                    selectedIndex === 0 ? "opacity-100" : "opacity-30"
-                                )}>
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-xs text-slate-400">Špitálka 253/6, Brno-Zábrdovice</p>
-                                        <span className={cn(
-                                            "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shrink-0",
-                                            status === "OPEN" && "bg-green-500/20 text-green-300 border border-green-500/30",
-                                            status === "CLOSING_SOON" && "bg-orange-500/20 text-orange-300 border border-orange-500/30",
-                                            (status === "AFTER_HOURS" || status === "CLOSED") && "bg-slate-800 text-slate-400 border border-slate-700"
-                                        )}>
-                                            {status === "OPEN" && "• Dnes Otevřeno"}
-                                            {status === "CLOSING_SOON" && "• Za chvíli zavíráme"}
-                                            {status === "AFTER_HOURS" && "• Dnes již zavřeno"}
-                                            {status === "CLOSED" && "• Dnes zavřeno"}
-                                        </span>
-                                    </div>
-
-                                    {/* Hours Table */}
-                                    <div className="space-y-2">
-                                        {hoursList.map((item) => {
-                                            const isToday = currentDayIndex === item.dayIndex;
-                                            return (
-                                                <div
-                                                    key={item.dayName}
-                                                    className={cn(
-                                                        "flex items-center justify-between p-3.5 rounded-xl transition-all",
-                                                        isToday
-                                                            ? "bg-blue-600 text-white font-bold shadow-lg border-l-4 border-l-blue-300"
-                                                            : "bg-white/5 border border-white/5 text-slate-200 hover:bg-white/10"
-                                                    )}
-                                                >
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="w-20 font-bold text-base">{item.dayName}</span>
-                                                        {isToday && (
-                                                            <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded bg-white text-blue-800 shadow-xs">
-                                                                Dnes
-                                                            </span>
-                                                        )}
-                                                        {item.info && (
-                                                            <span className={cn(
-                                                                "text-xs font-medium hidden sm:inline ml-1",
-                                                                isToday ? "text-blue-100" : "text-slate-400"
-                                                            )}>
-                                                                {item.info}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                    <span className={cn(
-                                                        "font-mono font-bold tracking-wide text-base",
-                                                        isToday ? "text-white" : "text-blue-300"
-                                                    )}>
-                                                        {item.time}
-                                                    </span>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-
-                                    {/* Quick Action Buttons */}
-                                    <div className="grid grid-cols-2 gap-3 pt-2">
-                                        <button
-                                            onClick={() => setIsPhoneModalOpen(true)}
-                                            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors text-sm shadow-md shadow-blue-600/30"
-                                        >
-                                            <Phone size={16} /> Zavolat
-                                        </button>
-                                        <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
-                                            <Mail size={16} /> Napsat
-                                        </a>
-                                    </div>
-                                </div>
-
-                                {/* SLIDE 2: DOVOLENÁ 2026 */}
-                                <div className={cn(
-                                    "flex-[0_0_100%] min-w-0 space-y-4 transition-opacity duration-500",
-                                    selectedIndex === 1 ? "opacity-100" : "opacity-30"
-                                )}>
-                                    <div className="flex items-center justify-between">
-                                        <p className="text-xs text-orange-300 font-medium">Plánované termíny dovolených</p>
-                                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider shrink-0 bg-orange-500/20 text-orange-300 border border-orange-500/30">
-                                            Přehled dovolených
-                                        </span>
-                                    </div>
-
-                                    {/* Vacations List (Identical height & padding to Slide 1) */}
-                                    <div className="space-y-2">
-                                        {vacations.map((vac: any, idx: number) => (
-                                            <div
-                                                key={idx}
-                                                className="flex items-center justify-between p-3.5 rounded-xl bg-orange-950/50 border border-orange-500/30 text-orange-100 hover:bg-orange-950/70 transition-all"
-                                            >
-                                                <div className="flex items-center gap-2">
-                                                    <ShieldAlert size={18} className="text-orange-400 shrink-0" />
-                                                    <span className="font-bold text-base text-orange-100">{vac.title}</span>
-                                                </div>
-                                                <span className="font-mono font-bold tracking-wide text-base bg-orange-600 text-white px-3 py-1 rounded-lg shadow-xs">
-                                                    {formatDateRange(vac)}
+                        {/* Hours Table */}
+                        <div className="space-y-2.5">
+                            {hoursList.map((item) => {
+                                const isToday = currentDayIndex === item.dayIndex;
+                                return (
+                                    <div
+                                        key={item.dayName}
+                                        className={cn(
+                                            "flex items-center justify-between p-3.5 rounded-xl transition-all",
+                                            isToday
+                                                ? "bg-blue-600 text-white font-bold shadow-lg border-l-4 border-l-blue-300"
+                                                : "bg-white/5 border border-white/5 text-slate-200 hover:bg-white/10"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <span className="w-20 font-bold text-base">{item.dayName}</span>
+                                            {isToday && (
+                                                <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded bg-white text-blue-800 shadow-xs">
+                                                    Dnes
                                                 </span>
-                                            </div>
-                                        ))}
+                                            )}
+                                            {item.info && (
+                                                <span className={cn(
+                                                    "text-xs font-medium hidden sm:inline ml-1",
+                                                    isToday ? "text-blue-100" : "text-slate-400"
+                                                )}>
+                                                    {item.info}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span className={cn(
+                                            "font-mono font-bold tracking-wide text-base",
+                                            isToday ? "text-white" : "text-blue-300"
+                                        )}>
+                                            {item.time}
+                                        </span>
                                     </div>
+                                );
+                            })}
+                        </div>
 
-                                    {/* Quick Action Buttons for Slide 2 */}
-                                    <div className="grid grid-cols-2 gap-3 pt-2">
-                                        <button
-                                            onClick={() => setIsPhoneModalOpen(true)}
-                                            className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-orange-600 text-white font-bold hover:bg-orange-500 transition-colors text-sm shadow-md shadow-orange-600/30"
-                                        >
-                                            <Phone size={16} /> Zavolat
-                                        </button>
-                                        <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
-                                            <Mail size={16} /> Napsat
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
+                        {/* Quick Action Buttons */}
+                        <div className="grid grid-cols-2 gap-3 pt-2 border-t border-slate-800">
+                            <button
+                                onClick={() => setIsPhoneModalOpen(true)}
+                                className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-500 transition-colors text-sm shadow-md shadow-blue-600/30"
+                            >
+                                <Phone size={16} /> Zavolat
+                            </button>
+                            <a href="mailto:ordinace@finemedica.cz" className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-800 text-slate-200 font-bold hover:bg-slate-700 transition-colors text-sm border border-slate-700">
+                                <Mail size={16} /> Napsat
+                            </a>
                         </div>
 
                     </div>
