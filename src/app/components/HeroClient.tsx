@@ -119,11 +119,10 @@ export default function HeroClient({ notice }: HeroClientProps) {
             </div>
 
             <div className="container relative z-10">
-                {/* items-stretch forces left and right columns to have equal container height */}
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
 
                     {/* Left Column: Text, CTA & Rotating Vacation/Substitute Card */}
-                    <div className="lg:col-span-6 text-center lg:text-left flex flex-col justify-between space-y-6">
+                    <div className="lg:col-span-6 text-center lg:text-left space-y-6">
                         <div className="space-y-6">
                             {/* Optional Badge if accepting patients */}
                             {notice?.acceptingNewPatients && (
@@ -195,7 +194,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         </div>
 
                         {/* Left Bottom Auto-Rotating Card (Termíny dovolené <-> Zástup) */}
-                        <div className="relative p-5 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-3 shadow-sm overflow-hidden animate-in fade-in duration-300">
+                        <div className="relative p-5 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-3 shadow-sm overflow-hidden animate-in fade-in duration-300 min-h-[175px] flex flex-col justify-between">
                             {/* Card Header with Tab Indicators */}
                             <div className="flex items-center justify-between border-b border-orange-200/80 pb-2.5">
                                 <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-orange-950">
@@ -279,7 +278,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                     </div>
 
                     {/* Right Column: Dedicated Exclusively to Ordinační hodiny */}
-                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden flex flex-col justify-between">
+                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden">
                         
                         {/* Header of Right Dark Container */}
                         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
