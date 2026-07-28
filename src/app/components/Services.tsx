@@ -117,7 +117,7 @@ export default function Services() {
                         <p className="text-slate-600 mb-4">
                             Hledáte jiný typ vyšetření? Kontaktujte nás pro individuální domluvu.
                         </p>
-                        <a href="tel:+420545162070" className="inline-flex items-center justify-center px-6 py-3 font-bold text-white transition-all duration-200 bg-slate-900 rounded-xl hover:bg-slate-800 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900">
+                        <a href="tel:+420545162070" className="h-12 px-7 inline-flex items-center justify-center font-bold text-white transition-all duration-200 bg-blue-600 rounded-xl hover:bg-blue-700 shadow-md text-base">
                             Zavolat do ordinace
                         </a>
                     </div>

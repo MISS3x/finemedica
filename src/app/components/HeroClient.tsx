@@ -127,7 +127,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                         <div className="space-y-6">
                             {/* Optional Badge if accepting patients */}
                             {notice?.acceptingNewPatients && (
-                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 font-medium text-sm animate-fade-in-up">
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-50 border border-blue-100 text-blue-700 font-medium text-sm animate-fade-in-up">
                                     <span className="relative flex h-2 w-2">
                                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                                         <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -149,7 +149,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                 Spojujeme odbornost s lidským přístupem pro celou rodinu.
                             </p>
 
-                            {/* CTA Buttons */}
+                            {/* CTA Buttons - Unified Height h-12 & Radius rounded-xl */}
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
                                 <a
                                     href="#contact"
@@ -160,10 +160,10 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                             contactEl.scrollIntoView({ behavior: "smooth" });
                                         }
                                     }}
-                                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-full shadow-lg hover:bg-blue-700 hover:shadow-blue-500/30 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 cursor-pointer"
+                                    className="h-12 px-7 inline-flex items-center justify-center text-base font-bold text-white transition-all duration-200 bg-blue-600 hover:bg-blue-700 rounded-xl shadow-md hover:shadow-blue-500/30 hover:scale-[1.02] focus:outline-none cursor-pointer gap-2"
                                 >
                                     Objednat se
-                                    <ArrowRight className="w-5 h-5 ml-2" />
+                                    <ArrowRight size={18} />
                                 </a>
                                 <a
                                     href="#services"
@@ -174,9 +174,9 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                             servicesEl.scrollIntoView({ behavior: "smooth" });
                                         }
                                     }}
-                                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-700 transition-all duration-200 bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 cursor-pointer"
+                                    className="h-12 px-7 inline-flex items-center justify-center text-base font-bold text-slate-700 transition-all duration-200 bg-white border border-slate-200 rounded-xl shadow-sm hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 focus:outline-none cursor-pointer gap-2"
                                 >
-                                    <PlayCircle className="w-5 h-5 ml-2 mr-2" />
+                                    <PlayCircle size={18} />
                                     Naše služby
                                 </a>
                             </div>

@@ -90,14 +90,14 @@ export default function AboutUs() {
                             </div>
                         </div>
 
-                        {/* Expandable SEO Details Button & Actions */}
+                        {/* Expandable SEO Details Button & Actions - Unified Height h-12 */}
                         <div className="pt-4 flex flex-wrap items-center gap-4">
                             <button
                                 onClick={() => setIsExpanded(!isExpanded)}
-                                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm transition-all border border-slate-200"
+                                className="h-12 px-6 inline-flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-sm transition-all border border-slate-200 gap-2"
                             >
                                 {isExpanded ? "Skrýt podrobný popis" : "Více o naší ordinaci"}
-                                {isExpanded ? <ChevronUp className="ml-2 w-4 h-4" /> : <ChevronDown className="ml-2 w-4 h-4" />}
+                                {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                             </button>
 
                             <a
@@ -109,9 +109,9 @@ export default function AboutUs() {
                                         contactEl.scrollIntoView({ behavior: "smooth" });
                                     }
                                 }}
-                                className="inline-flex items-center text-blue-600 font-bold hover:text-blue-700 hover:underline text-sm cursor-pointer"
+                                className="h-12 px-6 inline-flex items-center justify-center rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md transition-all cursor-pointer gap-2"
                             >
-                                Objednat se do ordinace <ArrowRight className="ml-2 w-4 h-4" />
+                                Objednat se do ordinace <ArrowRight size={18} />
                             </a>
                         </div>
                     </div>

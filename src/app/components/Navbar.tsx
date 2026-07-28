@@ -46,12 +46,12 @@ export default function Navbar() {
 
                     {/* Desktop Menu - Centered & Right */}
                     <div className="hidden md:flex items-center gap-8">
-                        <div className="flex items-center gap-6 bg-slate-100/50 px-6 py-2 rounded-full border border-slate-200/50 backdrop-blur-sm">
+                        <div className="flex items-center gap-6 bg-slate-100/70 px-6 py-2 rounded-2xl border border-slate-200/60 backdrop-blur-sm">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.name}
                                     href={link.href}
-                                    className="text-sm font-medium text-slate-600 hover:text-blue-600 transition-colors"
+                                    className="text-sm font-semibold text-slate-700 hover:text-blue-600 transition-colors"
                                 >
                                     {link.name}
                                 </Link>
@@ -61,24 +61,24 @@ export default function Navbar() {
                         <div className="flex items-center gap-3">
                             <button
                                 onClick={() => setIsPhoneModalOpen(true)}
-                                className="text-sm font-semibold text-slate-700 hover:text-blue-600 hidden lg:flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-full border border-slate-200 transition-colors"
+                                className="text-sm font-semibold text-slate-700 hover:text-blue-600 hidden lg:flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl border border-slate-200 transition-colors"
                             >
-                                <Phone size={14} className="text-green-600" />
+                                <Phone size={14} className="text-blue-600" />
                                 +420 545 162 070
                             </button>
                             <Link
                                 href="/#contact"
-                                className="px-5 py-2.5 bg-slate-900 text-white rounded-full text-sm font-semibold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl flex items-center gap-2"
+                                className="px-5 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-md flex items-center gap-2"
                             >
                                 Objednat se
-                                <ArrowRight size={14} className="opacity-70" />
+                                <ArrowRight size={14} className="opacity-90" />
                             </Link>
                         </div>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <button
-                        className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
+                        className="md:hidden p-2 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -104,7 +104,7 @@ export default function Navbar() {
                                 setIsOpen(false);
                                 setIsPhoneModalOpen(true);
                             }}
-                            className="w-full text-center px-5 py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                            className="w-full text-center px-5 py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                         >
                             <Phone size={18} /> Zavolat do ordinace
                         </button>

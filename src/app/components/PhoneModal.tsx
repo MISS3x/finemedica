@@ -127,7 +127,7 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
                 {/* Close Button */}
                 <button
                     onClick={handleClose}
-                    className="absolute top-5 right-5 w-10 h-10 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors border border-slate-700"
+                    className="absolute top-5 right-5 w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-colors border border-slate-700"
                     aria-label="Zavřít okno"
                 >
                     <X size={20} />
@@ -136,7 +136,7 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
                 {/* Header Row matching user's screenshot */}
                 <div className="flex items-start gap-4 pr-10">
                     {/* Left Round Blue Phone Icon */}
-                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/40 mt-0.5">
+                    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-lg shadow-blue-600/40 mt-0.5">
                         <Phone size={26} />
                     </div>
 
@@ -169,7 +169,7 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
                     <a
                         href="tel:+420545162070"
                         data-modal-call="true"
-                        className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl font-bold text-lg shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+                        className="w-full h-14 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                     >
                         <Phone size={22} /> Vytočit číslo
                     </a>

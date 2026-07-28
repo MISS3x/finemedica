@@ -55,7 +55,7 @@ export default function Hours({ notice }: HoursProps) {
                     <div className="relative z-10 grid lg:grid-cols-2 gap-12 lg:gap-24 items-start">
                         <div className="space-y-8">
                             <div>
-                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/10 rounded-full text-xs font-medium text-blue-200 mb-6">
+                                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-blue-200 mb-6">
                                     <Clock size={14} />
                                     Kdy nás zastihnete
                                 </div>
@@ -67,7 +67,7 @@ export default function Hours({ notice }: HoursProps) {
 
                             <div className="bg-white/10 border border-white/15 rounded-2xl p-6 backdrop-blur-sm">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white shrink-0 shadow-lg">
+                                    <div className="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-white shrink-0 shadow-lg">
                                         <Phone size={22} />
                                     </div>
                                     <div>
