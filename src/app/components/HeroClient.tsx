@@ -126,6 +126,8 @@ export default function HeroClient({ notice }: HeroClientProps) {
         return `${formatDate(vac.startDate)} – ${formatDate(vac.endDate)}`;
     };
 
+    const todayHoursObj = hoursList.find((h) => h.dayIndex === currentDayIndex);
+
     return (
         <section id="home" className="relative pt-28 pb-16 lg:pt-40 lg:pb-24 overflow-hidden bg-slate-50/50">
             {/* Extended Background with subtle texture */}
@@ -141,94 +143,126 @@ export default function HeroClient({ notice }: HeroClientProps) {
             </div>
 
             <div className="container relative z-10">
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                {/* items-stretch forces left and right columns to have equal container height */}
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
 
-                    {/* Left Column: Text, CTA & Substitute Info in White Area */}
-                    <div className="lg:col-span-6 text-center lg:text-left space-y-6">
-                        {/* Optional Badge if accepting patients */}
-                        {notice?.acceptingNewPatients && (
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 font-medium text-sm animate-fade-in-up">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                    {/* Left Column: Text, CTA & Dynamic Bottom Info Card Aligned to Right Box */}
+                    <div className="lg:col-span-6 text-center lg:text-left flex flex-col justify-between space-y-6">
+                        <div className="space-y-6">
+                            {/* Optional Badge if accepting patients */}
+                            {notice?.acceptingNewPatients && (
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100 text-blue-700 font-medium text-sm animate-fade-in-up">
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                                    </span>
+                                    Přijímáme nové pacienty
+                                </div>
+                            )}
+
+                            {/* Main Heading */}
+                            <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+                                Vaše zdraví, <br />
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                                    naše priorita
                                 </span>
-                                Přijímáme nové pacienty
+                            </h1>
+
+                            <p className="text-lg lg:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                                Moderní ordinace praktického lékaře v Brně.
+                                Spojujeme odbornost s lidským přístupem pro celou rodinu.
+                            </p>
+
+                            {/* CTA Buttons */}
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                                <a
+                                    href="#contact"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const contactEl = document.getElementById("contact");
+                                        if (contactEl) {
+                                            contactEl.scrollIntoView({ behavior: "smooth" });
+                                        }
+                                    }}
+                                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-full shadow-lg hover:bg-blue-700 hover:shadow-blue-500/30 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 cursor-pointer"
+                                >
+                                    Objednat se
+                                    <ArrowRight className="w-5 h-5 ml-2" />
+                                </a>
+                                <a
+                                    href="#services"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const servicesEl = document.getElementById("services");
+                                        if (servicesEl) {
+                                            servicesEl.scrollIntoView({ behavior: "smooth" });
+                                        }
+                                    }}
+                                    className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-700 transition-all duration-200 bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 cursor-pointer"
+                                >
+                                    <PlayCircle className="w-5 h-5 ml-2 mr-2" />
+                                    Naše služby
+                                </a>
                             </div>
-                        )}
 
-                        {/* Main Heading */}
-                        <h1 className="text-4xl lg:text-6xl font-bold text-slate-900 tracking-tight leading-[1.1]">
-                            Vaše zdraví, <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                                naše priorita
-                            </span>
-                        </h1>
-
-                        <p className="text-lg lg:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                            Moderní ordinace praktického lékaře v Brně.
-                            Spojujeme odbornost s lidským přístupem pro celou rodinu.
-                        </p>
-
-                        {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
-                            <a
-                                href="#contact"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    const contactEl = document.getElementById("contact");
-                                    if (contactEl) {
-                                        contactEl.scrollIntoView({ behavior: "smooth" });
-                                    }
-                                }}
-                                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-white transition-all duration-200 bg-blue-600 border border-transparent rounded-full shadow-lg hover:bg-blue-700 hover:shadow-blue-500/30 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 cursor-pointer"
-                            >
-                                Objednat se
-                                <ArrowRight className="w-5 h-5 ml-2" />
-                            </a>
-                            <a
-                                href="#services"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    const servicesEl = document.getElementById("services");
-                                    if (servicesEl) {
-                                        servicesEl.scrollIntoView({ behavior: "smooth" });
-                                    }
-                                }}
-                                className="inline-flex items-center justify-center px-8 py-4 text-base font-bold text-slate-700 transition-all duration-200 bg-white border border-slate-200 rounded-full shadow-sm hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-200 cursor-pointer"
-                            >
-                                <PlayCircle className="w-5 h-5 ml-2 mr-2" />
-                                Naše služby
-                            </a>
-                        </div>
-
-                        {/* Trust Indicators */}
-                        <div className="pt-4 border-t border-slate-200/60 flex flex-wrap gap-6 justify-center lg:justify-start text-slate-500">
-                            <div className="flex items-center gap-2">
-                                <CheckCircle2 size={18} className="text-blue-500" />
-                                <span className="font-medium text-sm">Smlouvy se všemi pojišťovnami</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <CheckCircle2 size={18} className="text-blue-500" />
-                                <span className="font-medium text-sm">Online objednání</span>
+                            {/* Trust Indicators */}
+                            <div className="pt-4 border-t border-slate-200/60 flex flex-wrap gap-6 justify-center lg:justify-start text-slate-500">
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 size={18} className="text-blue-500" />
+                                    <span className="font-medium text-sm">Smlouvy se všemi pojišťovnami</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <CheckCircle2 size={18} className="text-blue-500" />
+                                    <span className="font-medium text-sm">Online objednání</span>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Substitute Info Moved to Left Column (Filling the white space perfectly) */}
-                        {substituteText && (
-                            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/90 border border-amber-200 text-left space-y-2 shadow-sm animate-in fade-in duration-300">
-                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-amber-900">
-                                    <User size={16} className="text-amber-600 shrink-0" />
-                                    V případě dovolené zastupuje:
+                        {/* Bottom Info Card matching selected slide & aligned with right box bottom edge */}
+                        {selectedIndex === 0 ? (
+                            <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/90 border border-blue-200 text-left space-y-1.5 shadow-sm animate-in fade-in duration-300">
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-blue-900">
+                                        <Clock size={16} className="text-blue-600 shrink-0" />
+                                        <span>Ordinační doby pro dnešek</span>
+                                    </div>
+                                    <span className={cn(
+                                        "px-2.5 py-0.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider border",
+                                        status === "OPEN" && "bg-green-100 text-green-800 border-green-200",
+                                        status === "CLOSING_SOON" && "bg-orange-100 text-orange-800 border-orange-200",
+                                        (status === "AFTER_HOURS" || status === "CLOSED") && "bg-slate-200 text-slate-700 border-slate-300"
+                                    )}>
+                                        {status === "OPEN" && "• Dnes Otevřeno"}
+                                        {status === "CLOSING_SOON" && "• Za chvíli zavíráme"}
+                                        {status === "AFTER_HOURS" && "• Dnes již zavřeno"}
+                                        {status === "CLOSED" && "• Dnes zavřeno"}
+                                    </span>
                                 </div>
-                                <div className="text-sm font-bold text-amber-950 leading-relaxed border-l-4 border-amber-500 pl-3">
-                                    {substituteText}
+                                <div className="text-sm font-bold text-slate-900 leading-relaxed border-l-4 border-blue-500 pl-3">
+                                    {currentDayIndex >= 1 && currentDayIndex <= 5 ? (
+                                        <>Dnes ({todayHoursObj?.dayName}): <span className="font-mono text-blue-700 font-extrabold text-base">{todayHoursObj?.time}</span> {todayHoursObj?.info && <span className="text-xs text-slate-500 font-normal">({todayHoursObj?.info})</span>}</>
+                                    ) : (
+                                        <>Dnes je vírend. Rádi vás přivítáme v pondělí v ordinačních hodinách <span className="font-mono text-blue-700 font-extrabold">7:00 – 13:00</span>.</>
+                                    )}
                                 </div>
                             </div>
+                        ) : (
+                            substituteText && (
+                                <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-1.5 shadow-sm animate-in fade-in duration-300">
+                                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-orange-950">
+                                        <User size={16} className="text-orange-600 shrink-0" />
+                                        <span>V případě dovolené zastupuje:</span>
+                                    </div>
+                                    <div className="text-sm font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-3">
+                                        {substituteText}
+                                    </div>
+                                </div>
+                            )
                         )}
                     </div>
 
                     {/* Right Column: Interactive 2-Slide Hero Container */}
-                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden">
+                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden flex flex-col justify-between">
                         
                         {/* Header with 2-Page Tabs & Controls */}
                         <div className="flex items-center justify-between border-b border-slate-800 pb-4 relative z-10">
