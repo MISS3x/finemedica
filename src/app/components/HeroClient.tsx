@@ -119,10 +119,11 @@ export default function HeroClient({ notice }: HeroClientProps) {
             </div>
 
             <div className="container relative z-10">
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+                {/* items-stretch forces left and right columns to have equal container height */}
+                <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
 
-                    {/* Left Column: Text, CTA & Rotating Vacation/Substitute Card */}
-                    <div className="lg:col-span-6 text-center lg:text-left space-y-6">
+                    {/* Left Column: Text, CTA & Tall Rotating Vacation/Substitute Card */}
+                    <div className="lg:col-span-6 text-center lg:text-left flex flex-col justify-between space-y-6">
                         <div className="space-y-6">
                             {/* Optional Badge if accepting patients */}
                             {notice?.acceptingNewPatients && (
@@ -193,19 +194,19 @@ export default function HeroClient({ notice }: HeroClientProps) {
                             </div>
                         </div>
 
-                        {/* Left Bottom Auto-Rotating Card (Termíny dovolené <-> Zástup) */}
-                        <div className="relative p-5 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-3 shadow-sm overflow-hidden animate-in fade-in duration-300 min-h-[175px] flex flex-col justify-between">
+                        {/* Left Bottom Auto-Rotating Card (Tall & Large Readable Fonts) */}
+                        <div className="relative p-5 sm:p-6 rounded-2xl bg-orange-50/90 border border-orange-200/90 text-left space-y-4 shadow-sm overflow-hidden animate-in fade-in duration-300 flex flex-col justify-between">
                             {/* Card Header with Tab Indicators */}
-                            <div className="flex items-center justify-between border-b border-orange-200/80 pb-2.5">
-                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-orange-950">
+                            <div className="flex items-center justify-between border-b border-orange-200/80 pb-3">
+                                <div className="flex items-center gap-2 text-xs sm:text-sm font-black uppercase tracking-wider text-orange-950">
                                     {leftSlideIndex === 0 ? (
                                         <>
-                                            <Calendar size={16} className="text-orange-600 shrink-0" />
+                                            <Calendar size={18} className="text-orange-600 shrink-0" />
                                             <span>Plánované termíny dovolených 2026</span>
                                         </>
                                     ) : (
                                         <>
-                                            <User size={16} className="text-orange-600 shrink-0" />
+                                            <User size={18} className="text-orange-600 shrink-0" />
                                             <span>Zástup v době dovolené</span>
                                         </>
                                     )}
@@ -216,35 +217,35 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                     <button
                                         onClick={() => setLeftSlideIndex(0)}
                                         className={cn(
-                                            "h-2 rounded-full transition-all duration-300",
-                                            leftSlideIndex === 0 ? "bg-orange-600 w-5" : "bg-orange-300 hover:bg-orange-400 w-2"
+                                            "h-2.5 rounded-full transition-all duration-300",
+                                            leftSlideIndex === 0 ? "bg-orange-600 w-6" : "bg-orange-300 hover:bg-orange-400 w-2.5"
                                         )}
                                         aria-label="Zobrazit termíny dovolené"
                                     />
                                     <button
                                         onClick={() => setLeftSlideIndex(1)}
                                         className={cn(
-                                            "h-2 rounded-full transition-all duration-300",
-                                            leftSlideIndex === 1 ? "bg-orange-600 w-5" : "bg-orange-300 hover:bg-orange-400 w-2"
+                                            "h-2.5 rounded-full transition-all duration-300",
+                                            leftSlideIndex === 1 ? "bg-orange-600 w-6" : "bg-orange-300 hover:bg-orange-400 w-2.5"
                                         )}
                                         aria-label="Zobrazit zástup"
                                     />
                                 </div>
                             </div>
 
-                            {/* SLIDE CONTENT */}
+                            {/* SLIDE CONTENT - TALL & LARGE FONTS */}
                             {leftSlideIndex === 0 ? (
-                                <div className="space-y-1.5 animate-in fade-in duration-300">
+                                <div className="space-y-2 animate-in fade-in duration-300">
                                     {vacations.map((vac: any, idx: number) => (
                                         <div
                                             key={idx}
-                                            className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-orange-200/80 text-orange-950 text-xs sm:text-sm font-semibold shadow-2xs"
+                                            className="flex items-center justify-between p-3 rounded-xl bg-white border border-orange-200/80 text-orange-950 text-sm sm:text-base font-bold shadow-2xs"
                                         >
-                                            <div className="flex items-center gap-2">
-                                                <ShieldAlert size={15} className="text-orange-600 shrink-0" />
+                                            <div className="flex items-center gap-2.5">
+                                                <ShieldAlert size={18} className="text-orange-600 shrink-0" />
                                                 <span>{vac.title}</span>
                                             </div>
-                                            <span className="font-mono font-bold bg-orange-600 text-white px-2.5 py-0.5 rounded-md text-xs shrink-0 shadow-2xs">
+                                            <span className="font-mono font-bold bg-orange-600 text-white px-3 py-1 rounded-lg text-xs sm:text-sm shrink-0 shadow-2xs">
                                                 {formatDateRange(vac)}
                                             </span>
                                         </div>
@@ -252,17 +253,19 @@ export default function HeroClient({ notice }: HeroClientProps) {
                                 </div>
                             ) : (
                                 substituteText && (
-                                    <div className="text-sm font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-3.5 py-0.5 space-y-2 animate-in fade-in duration-300">
-                                        <div>
-                                            MUDr. Eva Klusáčková <br />
-                                            <span className="text-xs text-orange-900 font-medium">Institut komplexní péče, spol. s r.o. • Franzova 43, Brno</span>
+                                    <div className="text-sm sm:text-base font-bold text-orange-950 leading-relaxed border-l-4 border-orange-500 pl-4 py-1 space-y-3 animate-in fade-in duration-300">
+                                        <div className="space-y-1">
+                                            <p className="text-xl sm:text-2xl font-black text-orange-950">MUDr. Eva Klusáčková</p>
+                                            <p className="text-sm sm:text-base font-semibold text-orange-900">
+                                                Institut komplexní péče, spol. s r.o. • Franzova 43, 614 00 Brno - Maloměřice
+                                            </p>
                                         </div>
                                         <div>
                                             <a
                                                 href="tel:+420732892607"
-                                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-black text-xs sm:text-sm shadow-md shadow-orange-600/30 transition-all hover:scale-105"
+                                                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white font-extrabold text-sm sm:text-base shadow-md shadow-orange-600/30 transition-all hover:scale-105"
                                             >
-                                                <Phone size={14} /> +420 732 892 607
+                                                <Phone size={16} /> Firemní telefon: +420 732 892 607
                                             </a>
                                         </div>
                                     </div>
@@ -278,7 +281,7 @@ export default function HeroClient({ notice }: HeroClientProps) {
                     </div>
 
                     {/* Right Column: Dedicated Exclusively to Ordinační hodiny */}
-                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden">
+                    <div className="lg:col-span-6 bg-slate-900 rounded-3xl p-6 md:p-8 text-white shadow-2xl border border-slate-800 space-y-5 relative overflow-hidden flex flex-col justify-between">
                         
                         {/* Header of Right Dark Container */}
                         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
