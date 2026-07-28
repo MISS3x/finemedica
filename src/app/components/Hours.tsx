@@ -152,13 +152,10 @@ export default function Hours({ notice }: HoursProps) {
                                 {vacations.map((vac: any, idx: number) => (
                                     <div
                                         key={idx}
-                                        className="p-4 rounded-xl bg-white border border-orange-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs"
+                                        className="p-4 rounded-xl bg-white border border-orange-200/80 flex items-center gap-3.5 shadow-xs"
                                     >
-                                        <div className="flex items-center gap-2">
-                                            <ShieldAlert size={18} className="text-orange-600 shrink-0" />
-                                            <span className="font-bold text-slate-900 text-base">{vac.title}</span>
-                                        </div>
-                                        <span className="font-bold text-sm bg-orange-600 text-white px-3 py-1 rounded-lg text-right shadow-xs">
+                                        <ShieldAlert size={22} className="text-orange-600 shrink-0" />
+                                        <span className="font-mono font-black text-orange-950 text-lg sm:text-xl tracking-wide">
                                             {formatDateRange(vac)}
                                         </span>
                                     </div>

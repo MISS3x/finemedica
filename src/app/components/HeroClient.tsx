@@ -235,17 +235,14 @@ export default function HeroClient({ notice }: HeroClientProps) {
 
                             {/* SLIDE CONTENT - TALL & LARGE FONTS */}
                             {leftSlideIndex === 0 ? (
-                                <div className="space-y-2 animate-in fade-in duration-300">
+                                <div className="space-y-2.5 animate-in fade-in duration-300">
                                     {vacations.map((vac: any, idx: number) => (
                                         <div
                                             key={idx}
-                                            className="flex items-center justify-between p-3 rounded-xl bg-white border border-orange-200/80 text-orange-950 text-sm sm:text-base font-bold shadow-2xs"
+                                            className="flex items-center gap-3 p-3.5 rounded-xl bg-white border border-orange-200/90 text-orange-950 shadow-2xs"
                                         >
-                                            <div className="flex items-center gap-2.5">
-                                                <ShieldAlert size={18} className="text-orange-600 shrink-0" />
-                                                <span>{vac.title}</span>
-                                            </div>
-                                            <span className="font-mono font-bold bg-orange-600 text-white px-3 py-1 rounded-lg text-xs sm:text-sm shrink-0 shadow-2xs">
+                                            <ShieldAlert size={20} className="text-orange-600 shrink-0" />
+                                            <span className="font-mono font-black text-orange-950 text-base sm:text-lg tracking-wide">
                                                 {formatDateRange(vac)}
                                             </span>
                                         </div>
