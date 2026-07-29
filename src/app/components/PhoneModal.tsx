@@ -6,11 +6,14 @@ import { useState, useEffect } from "react";
 interface PhoneModalProps {
     isOpen?: boolean;
     onClose?: () => void;
+    phoneNumber?: string;
+    title?: string;
+    subtitle?: string;
 }
 
 function getDynamicCallStatus(): { timeInstruction: string; isOpenNow: boolean } {
     const now = new Date();
-    const day = now.getDay(); // 0 = Sun, 1 = Mon ...
+    const day = now.getDay();
     const hours = now.getHours();
     const minutes = now.getMinutes();
     const currentMinutes = hours * 60 + minutes;
@@ -26,14 +29,12 @@ function getDynamicCallStatus(): { timeInstruction: string; isOpenNow: boolean }
     const todaySchedule = schedule[day];
 
     if (todaySchedule) {
-        // Currently OPEN
         if (currentMinutes >= todaySchedule.openMin && currentMinutes < todaySchedule.closeMin) {
             return {
                 timeInstruction: `Dnes volejte do ${todaySchedule.closeStr}`,
                 isOpenNow: true,
             };
         }
-        // Early morning BEFORE opening
         if (currentMinutes < todaySchedule.openMin) {
             return {
                 timeInstruction: `Dnes volejte od ${todaySchedule.openStr} do ${todaySchedule.closeStr}`,
@@ -42,7 +43,6 @@ function getDynamicCallStatus(): { timeInstruction: string; isOpenNow: boolean }
         }
     }
 
-    // After closing hours on workday -> Next workday
     if (day >= 1 && day <= 4 && currentMinutes >= schedule[day].closeMin) {
         const nextDay = (day + 1) as keyof typeof schedule;
         const nextSchedule = schedule[nextDay];
@@ -52,15 +52,23 @@ function getDynamicCallStatus(): { timeInstruction: string; isOpenNow: boolean }
         };
     }
 
-    // Friday after 12:00 or Weekend (Sat/Sun) -> Next is Monday
     return {
         timeInstruction: `Volejte v pondělí od 7:00 do 13:00`,
         isOpenNow: false,
     };
 }
 
-export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOnClose }: PhoneModalProps) {
+export default function PhoneModal({
+    isOpen: externalIsOpen,
+    onClose: externalOnClose,
+    phoneNumber,
+    title,
+    subtitle,
+}: PhoneModalProps) {
     const [internalIsOpen, setInternalIsOpen] = useState(false);
+    const [activePhone, setActivePhone] = useState<string | null>(null);
+    const [activeTitle, setActiveTitle] = useState<string | null>(null);
+    const [activeSubtitle, setActiveSubtitle] = useState<string | null>(null);
 
     const isVisible = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
 
@@ -76,11 +84,21 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
         const handleGlobalClick = (e: MouseEvent) => {
             const target = (e.target as HTMLElement).closest("a[href^='tel:']");
             if (target) {
-                // If it's the direct trigger inside the modal, allow default call action
                 if ((target as HTMLElement).getAttribute("data-modal-call") === "true") {
                     return;
                 }
                 e.preventDefault();
+                const href = target.getAttribute("href") || "";
+                const rawNum = href.replace("tel:", "").trim();
+                if (rawNum.includes("732892607")) {
+                    setActivePhone("+420 732 892 607");
+                    setActiveTitle("Zástup v době dovolené");
+                    setActiveSubtitle("MUDr. Eva Klusáčková • Institut komplexní péče");
+                } else {
+                    setActivePhone(null);
+                    setActiveTitle(null);
+                    setActiveSubtitle(null);
+                }
                 setInternalIsOpen(true);
             }
         };
@@ -113,6 +131,10 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
     if (!isVisible) return null;
 
     const { timeInstruction } = getDynamicCallStatus();
+    const displayPhone = phoneNumber || activePhone || "+420 545 162 070";
+    const displayTitle = title || activeTitle || "Objednejte se telefonicky";
+    const displaySubtitle = subtitle || activeSubtitle || timeInstruction;
+    const telHref = `tel:${displayPhone.replace(/\s+/g, "")}`;
 
     return (
         <div 
@@ -140,34 +162,33 @@ export default function PhoneModal({ isOpen: externalIsOpen, onClose: externalOn
                         <Phone size={26} />
                     </div>
 
-                    {/* Title & Large Operating Hours */}
+                    {/* Title & Subtitle */}
                     <div className="space-y-1">
                         <h3 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-                            Objednejte se telefonicky
+                            {displayTitle}
                         </h3>
 
-                        {/* VELKÁ INSTRUKCE HODIN */}
                         <p className="text-slate-300 font-semibold text-base sm:text-lg">
-                            {timeInstruction}
+                            {displaySubtitle}
                         </p>
                     </div>
                 </div>
 
-                {/* GIANT LIGHT BLUE PHONE NUMBER - STRICTLY ALWAYS ON 1 SINGLE LINE */}
+                {/* GIANT LIGHT BLUE PHONE NUMBER */}
                 <div className="pt-1">
                     <a
-                        href="tel:+420545162070"
+                        href={telHref}
                         data-modal-call="true"
                         className="block text-2xl sm:text-4xl md:text-5xl font-black text-[#75aaff] hover:text-white font-mono tracking-normal sm:tracking-wider whitespace-nowrap transition-colors"
                     >
-                        +420 545 162 070
+                        {displayPhone}
                     </a>
                 </div>
 
                 {/* Mobile Call Button */}
                 <div className="pt-2 border-t border-slate-800">
                     <a
-                        href="tel:+420545162070"
+                        href={telHref}
                         data-modal-call="true"
                         className="w-full h-14 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-lg shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                     >

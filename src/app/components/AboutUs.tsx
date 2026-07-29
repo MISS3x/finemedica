@@ -6,8 +6,11 @@ import { useState, useEffect } from "react";
 
 const aboutImages = [
     { src: "/images/doctor_talking.png", alt: "Lékařka hovořící s pacientem" },
+    { src: "/images/examination_couch.webp", alt: "Vyšetřovací lehátko v ordinaci" },
     { src: "/images/medical_desk.png", alt: "Moderní diagnostické vybavení" },
+    { src: "/images/waiting_room_monstera.webp", alt: "Čekárna ordinace" },
     { src: "/images/waiting_room.png", alt: "Příjemné prostředí ordinace" },
+    { src: "/images/entrance_ramp.webp", alt: "Bezbariérový vstup do ordinace" },
 ];
 
 export default function AboutUs() {
